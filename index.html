@@ -1,686 +1,104 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Relatório — Exportação (CSV)</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Relatório — Exportação Tironalu CRM</title>
 
-  <!-- Tailwind (ok para protótipos; em produção use build/CLI) -->
   <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Fonte -->
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet"/>
-
-  <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
-
-  <!-- PapaParse (CSV no client) -->
-  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
   <style>
     :root{
-      --bg:#020617; --card:#0b1324; --muted:#94a3b8; --accent:#eb00e9; --ring:#f472b6;
+      --bg:#020617; --card:#0b1324; --accent:#eb00e9;
     }
-    html,body{ height:100%; }
-    body{ background: radial-gradient(1200px 900px at 10% -10%, #111827 0%, transparent 60%),
-                 radial-gradient(1200px 900px at 110% 10%, #0b1224 0%, transparent 55%),
-                 var(--bg); color:#e5e7eb; font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji"; }
-    .glass{ background: linear-gradient(180deg, rgba(11,19,36,.75), rgba(11,19,36,.6)); backdrop-filter: blur(10px); border:1px solid rgba(255,255,255,.07) }
-    .chip{ background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.08); }
-    .kbd{ border:1px solid rgba(255,255,255,.16); border-bottom-width:3px; }
-    .ring-accent{ box-shadow: 0 0 0 2px rgba(235,0,233,.2); }
-    .card-shadow{ box-shadow: 0 10px 30px rgba(0,0,0,.35); }
-    .grid-auto-300{ display:grid; grid-template-columns: repeat(auto-fill,minmax(300px,1fr)); gap:1rem; }
-    .table-sticky thead th{ position:sticky; top:0; background:#0b1324; z-index:2; }
-    .scrollbar::-webkit-scrollbar{ height:10px; width:10px; } 
-    .scrollbar::-webkit-scrollbar-thumb{ background:#1f2937; border-radius:12px; }
-    .ellipsis{ overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:100%; display:inline-block; vertical-align:bottom;}
-    .pill{ border:1px dashed rgba(255,255,255,.2); }
-    .fade-in{ animation: fade .4s ease-out both; } @keyframes fade{ from{opacity:.0; transform:translateY(6px)} to{opacity:1; transform:translateY(0)} }
-    .hr{ height:1px; background:linear-gradient(90deg, transparent, rgba(255,255,255,.1), transparent); }
+    body{background:var(--bg);color:#e5e7eb;font-family:'Inter',sans-serif;}
+    .glass{background:rgba(11,19,36,.75);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.08);}
   </style>
 </head>
-<body>
-  <header class="px-5 sm:px-8 pt-6 pb-2">
-    <div class="max-w-7xl mx-auto">
-      <div class="flex items-center justify-between gap-4">
-        <div class="flex items-center gap-4">
-          <div class="size-11 rounded-2xl grid place-items-center glass border border-white/10 text-white/90 card-shadow">
-            <svg xmlns="http://www.w3.org/2000/svg" class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-              <path d="M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z" stroke-width="1.5"/>
-            </svg>
-          </div>
-          <div>
-            <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Relatório — Exportação CSV</h1>
-            <p class="text-sm text-slate-400">Carregue seu <span class="font-semibold">exportacaoteste (5).csv</span> ou soltar arquivo abaixo.</p>
-          </div>
-        </div>
-        <div class="hidden sm:flex items-center gap-2 text-xs text-slate-400">
-          <span class="chip px-2.5 py-1 rounded-full">Dinâmico</span>
-          <span class="chip px-2.5 py-1 rounded-full">Responsivo</span>
-          <span class="chip px-2.5 py-1 rounded-full">Client-side</span>
-        </div>
-      </div>
-      <div class="mt-5 hr rounded-full"></div>
-    </div>
+<body class="min-h-screen">
+  <header class="p-8 text-center">
+    <h1 class="text-3xl font-extrabold mb-2">Relatório — Exportação CRM</h1>
+    <p class="text-slate-400">Análise consolidada de <strong>285</strong> registros exportados em outubro/2025.</p>
   </header>
 
-  <main class="px-5 sm:px-8 pb-28">
-    <div class="max-w-7xl mx-auto">
+  <main class="max-w-6xl mx-auto px-5 pb-20">
+    <!-- KPIs -->
+    <section class="grid md:grid-cols-4 gap-4">
+      <div class="glass rounded-2xl p-5 text-center">
+        <div class="text-slate-400 text-sm">Registros totais</div>
+        <div class="text-4xl font-extrabold mt-2">285</div>
+      </div>
+      <div class="glass rounded-2xl p-5 text-center">
+        <div class="text-slate-400 text-sm">Com WhatsApp ID</div>
+        <div class="text-4xl font-extrabold mt-2">285</div>
+      </div>
+      <div class="glass rounded-2xl p-5 text-center">
+        <div class="text-slate-400 text-sm">Criados via WhatsApp</div>
+        <div class="text-4xl font-extrabold mt-2">285</div>
+      </div>
+      <div class="glass rounded-2xl p-5 text-center">
+        <div class="text-slate-400 text-sm">Estados distintos</div>
+        <div class="text-4xl font-extrabold mt-2">15</div>
+      </div>
+    </section>
 
-      <!-- Upload / DnD -->
-      <section class="glass rounded-3xl p-4 sm:p-6 ring-accent card-shadow">
-        <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-          <div class="flex-1">
-            <h2 class="text-lg sm:text-xl font-bold">Fonte de dados</h2>
-            <p class="text-slate-400 text-sm">Arraste e solte o CSV aqui, ou selecione um arquivo. Detectaremos colunas como <span class="chip px-2 py-0.5 rounded">data_de_criacao</span>, <span class="chip px-2 py-0.5 rounded">estado</span>, <span class="chip px-2 py-0.5 rounded">cidade</span>, <span class="chip px-2 py-0.5 rounded">status</span>, <span class="chip px-2 py-0.5 rounded">fonte</span>, <span class="chip px-2 py-0.5 rounded">criado_por_whatsapp</span>, <span class="chip px-2 py-0.5 rounded">genero</span> e <span class="chip px-2 py-0.5 rounded">tags</span>.</p>
-          </div>
-          <div class="flex items-center gap-3">
-            <label class="px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 cursor-pointer">
-              <span class="text-sm">Selecionar CSV</span>
-              <input id="fileInput" type="file" accept=".csv,text/csv" class="hidden" />
-            </label>
-            <button id="btnDemo" class="px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-sm">Carregar exemplo</button>
-          </div>
-        </div>
-        <div id="drop" class="mt-4 p-6 rounded-2xl border-2 border-dashed border-white/15 bg-white/5 text-slate-400 text-sm text-center">
-          Arraste seu arquivo aqui
-          <div class="mt-2 text-xs text-slate-500">Dica: <span class="kbd px-1.5 py-0.5 rounded">CTRL</span> + <span class="kbd px-1.5 py-0.5 rounded">V</span> cola conteúdos copiados.</div>
-        </div>
-        <div id="meta" class="mt-4 text-xs text-slate-400 hidden"></div>
-      </section>
+    <!-- Charts -->
+    <section class="mt-10 grid lg:grid-cols-2 gap-6">
+      <div class="glass rounded-2xl p-6">
+        <h2 class="font-bold mb-3 text-lg">Distribuição por Estado</h2>
+        <canvas id="chartUF"></canvas>
+      </div>
+      <div class="glass rounded-2xl p-6">
+        <h2 class="font-bold mb-3 text-lg">Evolução Temporal</h2>
+        <canvas id="chartTimeline"></canvas>
+      </div>
+      <div class="glass rounded-2xl p-6">
+        <h2 class="font-bold mb-3 text-lg">Status</h2>
+        <canvas id="chartStatus"></canvas>
+      </div>
+      <div class="glass rounded-2xl p-6">
+        <h2 class="font-bold mb-3 text-lg">Fontes</h2>
+        <canvas id="chartFonte"></canvas>
+      </div>
+    </section>
 
-      <!-- Filtros -->
-      <section class="mt-6 glass rounded-3xl p-4 sm:p-6 card-shadow">
-        <div class="grid md:grid-cols-4 gap-3">
-          <div>
-            <label class="text-xs text-slate-400">Período</label>
-            <div class="flex gap-2">
-              <input id="dateStart" type="date" class="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2.5">
-              <input id="dateEnd" type="date" class="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2.5">
-            </div>
-          </div>
-          <div>
-            <label class="text-xs text-slate-400">Estado (UF)</label>
-            <select id="filterUF" class="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2.5">
-              <option value="">Todos</option>
-            </select>
-          </div>
-          <div>
-            <label class="text-xs text-slate-400">Status</label>
-            <select id="filterStatus" class="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2.5">
-              <option value="">Todos</option>
-            </select>
-          </div>
-          <div class="flex items-end gap-2">
-            <button id="applyFilters" class="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10">Aplicar</button>
-            <button id="clearFilters" class="px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10">Limpar</button>
-          </div>
-        </div>
-      </section>
-
-      <!-- KPIs -->
-      <section class="mt-6">
-        <div class="grid-auto-300">
-          <div class="glass rounded-3xl p-5 card-shadow">
-            <div class="text-slate-400 text-xs">Registros</div>
-            <div id="kpiTotal" class="text-3xl font-extrabold mt-2">—</div>
-            <div id="kpiPeriodo" class="text-slate-400 text-xs mt-1">Período selecionado</div>
-          </div>
-          <div class="glass rounded-3xl p-5 card-shadow">
-            <div class="text-slate-400 text-xs">Com WhatsApp ID</div>
-            <div id="kpiWhats" class="text-3xl font-extrabold mt-2">—</div>
-            <div class="text-slate-400 text-xs mt-1"><span id="kpiWhatsPct">—</span> do total</div>
-          </div>
-          <div class="glass rounded-3xl p-5 card-shadow">
-            <div class="text-slate-400 text-xs">Criados via WhatsApp</div>
-            <div id="kpiCriadoWpp" class="text-3xl font-extrabold mt-2">—</div>
-            <div class="text-slate-400 text-xs mt-1">Campo <code>criado_por_whatsapp</code> = “Sim”</div>
-          </div>
-          <div class="glass rounded-3xl p-5 card-shadow">
-            <div class="text-slate-400 text-xs">Estados distintos</div>
-            <div id="kpiUFs" class="text-3xl font-extrabold mt-2">—</div>
-            <div class="text-slate-400 text-xs mt-1">Cobertura geográfica</div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Charts -->
-      <section class="mt-6 grid grid-cols-1 xl:grid-cols-3 gap-4">
-        <div class="xl:col-span-2 glass rounded-3xl p-5 card-shadow">
-          <div class="flex items-center justify-between">
-            <h3 class="font-bold">Evolução por data de criação</h3>
-            <div class="text-xs text-slate-400">coluna: <code>data_de_criacao</code></div>
-          </div>
-          <canvas id="chartTimeline" height="120"></canvas>
-        </div>
-
-        <div class="glass rounded-3xl p-5 card-shadow">
-          <div class="flex items-center justify-between">
-            <h3 class="font-bold">Distribuição por Status</h3>
-            <div class="text-xs text-slate-400">coluna: <code>status</code></div>
-          </div>
-          <canvas id="chartStatus" height="120"></canvas>
-        </div>
-
-        <div class="glass rounded-3xl p-5 card-shadow">
-          <div class="flex items-center justify-between">
-            <h3 class="font-bold">Distribuição por UF</h3>
-            <div class="text-xs text-slate-400">coluna: <code>estado</code></div>
-          </div>
-          <canvas id="chartUF" height="120"></canvas>
-        </div>
-
-        <div class="glass rounded-3xl p-5 card-shadow">
-          <div class="flex items-center justify-between">
-            <h3 class="font-bold">Top 10 Cidades</h3>
-            <div class="text-xs text-slate-400">coluna: <code>cidade</code></div>
-          </div>
-          <canvas id="chartCidades" height="120"></canvas>
-        </div>
-
-        <div class="glass rounded-3xl p-5 card-shadow">
-          <div class="flex items-center justify-between">
-            <h3 class="font-bold">Fontes</h3>
-            <div class="text-xs text-slate-400">coluna: <code>fonte</code></div>
-          </div>
-          <canvas id="chartFonte" height="120"></canvas>
-        </div>
-
-        <div class="glass rounded-3xl p-5 card-shadow">
-          <div class="flex items-center justify-between">
-            <h3 class="font-bold">Gênero</h3>
-            <div class="text-xs text-slate-400">coluna: <code>genero</code></div>
-          </div>
-          <canvas id="chartGenero" height="120"></canvas>
-        </div>
-      </section>
-
-      <!-- Tags -->
-      <section class="mt-6 glass rounded-3xl p-5 card-shadow">
-        <div class="flex items-center justify-between">
-          <h3 class="font-bold">Tags mais frequentes</h3>
-          <div class="text-xs text-slate-400">coluna: <code>tags</code> (separadores: <code>|</code> ou <code>,</code>)</div>
-        </div>
-        <div id="tagsWrap" class="mt-3 flex flex-wrap gap-2"></div>
-      </section>
-
-      <!-- Tabela -->
-      <section class="mt-6 glass rounded-3xl p-5 overflow-hidden card-shadow">
-        <div class="flex items-center justify-between gap-2">
-          <h3 class="font-bold">Registros</h3>
-          <div class="flex items-center gap-2">
-            <input id="search" class="bg-white/5 border border-white/10 rounded-xl px-3 py-2.5 w-60" placeholder="Buscar… (nome, email, cidade, etc)"/>
-            <button id="downloadCSV" class="px-3 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-sm">Baixar CSV filtrado</button>
-          </div>
-        </div>
-        <div class="overflow-auto scrollbar mt-3 rounded-2xl border border-white/10">
-          <table id="grid" class="w-full text-sm table-sticky">
-            <thead class="text-left text-slate-300">
-              <tr id="gridHead"></tr>
-            </thead>
-            <tbody id="gridBody" class="divide-y divide-white/5"></tbody>
-          </table>
-        </div>
-        <div class="flex items-center justify-between text-xs text-slate-400 mt-3">
-          <div id="gridInfo">—</div>
-          <div class="flex items-center gap-2">
-            <button id="prevPage" class="px-2 py-1.5 rounded-lg bg-white/5 border border-white/10">◀</button>
-            <span id="pageLbl" class="px-2 py-1.5 pill rounded-lg">pág. 1</span>
-            <button id="nextPage" class="px-2 py-1.5 rounded-lg bg-white/5 border border-white/10">▶</button>
-            <select id="pageSize" class="ml-2 bg-white/5 border border-white/10 rounded-lg px-2 py-1.5">
-              <option>10</option><option selected>25</option><option>50</option><option>100</option>
-            </select>
-          </div>
-        </div>
-      </section>
-
-      <p class="text-[11px] text-slate-500 mt-6">Logs <span class="chip px-1.5 py-0.5 rounded">[UI]</span> no console.</p>
-    </div>
+    <!-- Tags -->
+    <section class="glass rounded-2xl p-6 mt-10">
+      <h2 class="font-bold mb-3 text-lg">Tags mais frequentes</h2>
+      <div class="flex flex-wrap gap-2 text-sm">
+        <span class="bg-white/10 px-3 py-1.5 rounded-full">Escalada (285)</span>
+        <span class="bg-white/10 px-3 py-1.5 rounded-full">Rec N'Play (285)</span>
+        <span class="bg-white/10 px-3 py-1.5 rounded-full">Criado pela sessão escalada-5561992489201-03 (285)</span>
+        <span class="bg-white/10 px-3 py-1.5 rounded-full">Escalada l Estudantes (46)</span>
+        <span class="bg-white/10 px-3 py-1.5 rounded-full">Rec and Play (5)</span>
+        <span class="bg-white/10 px-3 py-1.5 rounded-full">Escalada l Professor (3)</span>
+      </div>
+    </section>
   </main>
 
   <script>
-    /* ===== Util ===== */
-    const log = (...a)=>console.debug('[UI]', ...a);
-    const $ = (sel, el=document)=> el.querySelector(sel);
-    const $$ = (sel, el=document)=> Array.from(el.querySelectorAll(sel));
-
-    // Detecção case-insensitive de colunas esperadas
-    const guess = (cols, ...cands) => {
-      const lc = cols.map(c=>String(c).toLowerCase());
-      for(const c of cands.flat()){
-        const i = lc.indexOf(String(c).toLowerCase());
-        if(i>=0) return cols[i];
-      }
-      return null;
+    const ufData = {
+      labels: ["PE","PB","RO","SE","RN","BA","PI","RJ","CE","PR"],
+      datasets: [{label:"Registros", data:[259,4,3,3,2,2,2,2,2,1], backgroundColor:"#3b82f6"}]
+    };
+    const tlData = {
+      labels: ["2025-10-11","2025-10-15","2025-10-16","2025-10-17","2025-10-18"],
+      datasets: [{label:"Criações por dia", data:[1,7,91,93,93], borderColor:"#eb00e9", backgroundColor:"#eb00e950"}]
+    };
+    const statusData = {
+      labels:["Para prospectar"],
+      datasets:[{data:[285], backgroundColor:["#22d3ee"]}]
+    };
+    const fonteData = {
+      labels:["Whatsapp"],
+      datasets:[{data:[285], backgroundColor:["#a855f7"]}]
     };
 
-    // Parse data com tolerância (pt-BR e ISO)
-    const toDate = (v)=>{
-      if(!v) return null;
-      if(v instanceof Date) return v;
-      const s = String(v).trim().replace(/\//g,'-');
-      // tenta DD-MM-YYYY
-      const m1 = s.match(/^(\d{1,2})-(\d{1,2})-(\d{2,4})(.*)?$/);
-      if(m1){
-        const d = Number(m1[1]), mo = Number(m1[2])-1, y = Number(m1[3].length===2 ? ('20'+m1[3]) : m1[3]);
-        const dt = new Date(y, mo, d);
-        return isNaN(dt) ? null : dt;
-      }
-      // Date parse nativo (ISO)
-      const dt = new Date(s);
-      return isNaN(dt) ? null : dt;
-    };
-
-    const fmtPct = (num)=> (isFinite(num) ? (num*100).toFixed(1)+'%' : '—');
-
-    // Contagem categórica
-    const countBy = (arr, keyFn) => {
-      const m = new Map();
-      for(const r of arr){
-        const k = keyFn(r);
-        if(!k && k!==0) continue;
-        const kk = String(k).trim();
-        if(!kk) continue;
-        m.set(kk, (m.get(kk)||0)+1);
-      }
-      return Array.from(m.entries()).sort((a,b)=>b[1]-a[1]);
-    };
-
-    // Chunk
-    const chunk = (arr, size)=> arr.reduce((acc,_,i)=> (i%size? acc : [...acc, arr.slice(i,i+size)]), []);
-
-    // CSV export
-    function downloadCSV(filename, rows){
-      if(!rows.length) return;
-      const cols = Object.keys(rows[0]);
-      const esc = (v)=> `"${String(v??'').replace(/"/g,'""')}"`;
-      const csv = [cols.join(',')].concat(
-        rows.map(r=> cols.map(c=>esc(r[c])).join(','))
-      ).join('\n');
-      const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url; a.download = filename; a.click();
-      URL.revokeObjectURL(url);
-    }
-
-    /* ===== Estado ===== */
-    let RAW = [];        // linhas originais
-    let COLS = [];       // nomes de colunas
-    let MAP = {};        // mapeamento de colunas detectadas
-    let VIEW = [];       // linhas filtradas
-    let PAG = { page:1, size:25 };
-
-    // Charts
-    let chartTL, chartStatus, chartUF, chartCidade, chartFonte, chartGenero;
-
-    function destroyCharts(){
-      [chartTL, chartStatus, chartUF, chartCidade, chartFonte, chartGenero].forEach(c=> c && c.destroy());
-      chartTL=chartStatus=chartUF=chartCidade=chartFonte=chartGenero=null;
-    }
-
-    /* ===== Carregamento ===== */
-    async function parseCSVFile(file){
-      return new Promise((resolve,reject)=>{
-        Papa.parse(file, {
-          header: true,
-          skipEmptyLines: true,
-          transformHeader: h=> (h||'').trim(),
-          complete: (res)=> resolve(res.data),
-          error: reject
-        });
-      });
-    }
-
-    async function loadDemo(){
-      // Exemplo de estrutura mínima (você pode substituir por um fetch do seu CSV público)
-      const demo = `id,nome,posicao,descricao,responsavel,data_de_criacao,fonte,status,ultima_mudanca_de_status,ultimo_contato,data_de_atribuicao,telefone,email,cidade,estado,whatsappId,criado_por_whatsapp,genero,tags
-1,Ana,,,,"2025-10-01",Form,Ativo,2025-10-10,2025-10-12,2025-10-12,,ana@ex.com,Recife,PE,558199000001@s.whatsapp.net,Sim,Feminino,"Escalada| Rec N'Play"
-2,João,,,,"2025-10-02",Evento,Ativo,2025-10-10,2025-10-12,2025-10-12,,joao@ex.com,Olinda,PE,,Não,Masculino,"Criado pela sessão escalada-xxx"
-3,Marcos,,,,"2025-09-29",WhatsApp,Em Prospecção,2025-10-08,2025-10-10,2025-10-10,,marcos@ex.com,João Pessoa,PB,558399000003@s.whatsapp.net,Sim,Masculino,"Escalada| Rec N'Play"
-4,Luiza,,,,"2025-09-25",Form,Perdido,2025-10-07,2025-10-09,2025-10-09,,luiza@ex.com,Recife,PE,,Não,Feminino,""
-5,Patricia,,,,"2025-10-03",Evento,Ativo,2025-10-11,2025-10-12,2025-10-12,,pat@ex.com,Natal,RN,558498000005@s.whatsapp.net,Sim,Feminino,"Escalada| Criado pela sessão escalada-yyy"`;
-      const blob = new Blob([demo], {type:"text/csv"});
-      const file = new File([blob],"demo.csv",{type:"text/csv"});
-      const rows = await parseCSVFile(file);
-      applyData(rows);
-      $('#meta').classList.remove('hidden');
-      $('#meta').innerText = `Exemplo carregado: ${rows.length} linhas, ${Object.keys(rows[0]||{}).length} colunas.`;
-      log('[boot] demo carregado', rows.length);
-    }
-
-    function detectColumns(cols){
-      // nomes prováveis (variações aceitas)
-      const map = {};
-      map.id         = guess(cols, 'id', 'Id', 'ID');
-      map.nome       = guess(cols, 'nome','Name','nome_completo','Nome');
-      map.status     = guess(cols, 'status','Status');
-      map.fonte      = guess(cols, 'fonte','Origem','source');
-      map.uf         = guess(cols, 'estado','UF','uf','Estado');
-      map.cidade     = guess(cols, 'cidade','Cidade','municipio','Município');
-      map.data       = guess(cols, 'data_de_criacao','criado_em','data_criacao','created_at','data');
-      map.ultimoContato = guess(cols, 'ultimo_contato','último_contato','last_contact');
-      map.whatsappId = guess(cols, 'whatsappId','whatsapp_id','whatsapp','wppid');
-      map.criadoWpp  = guess(cols, 'criado_por_whatsapp','criado_whatsapp','criado_wpp');
-      map.genero     = guess(cols, 'genero','gênero','gender');
-      map.tags       = guess(cols, 'tags','Tags','tag_list');
-
-      return map;
-    }
-
-    function normalizeRows(rows){
-      return rows.map(r=>{
-        const o = {...r};
-        // normalizações leves
-        if(MAP.data && o[MAP.data]) o[MAP.data] = String(o[MAP.data]).replace('T',' ').replace('Z','');
-        if(MAP.criadoWpp && o[MAP.criadoWpp]) o[MAP.criadoWpp] = String(o[MAP.criadoWpp]).trim();
-        if(MAP.uf && o[MAP.uf]) o[MAP.uf] = String(o[MAP.uf]).toUpperCase().slice(0,2);
-        if(MAP.tags && o[MAP.tags]) o[MAP.tags] = String(o[MAP.tags]);
-        return o;
-      });
-    }
-
-    function applyData(rows){
-      RAW = normalizeRows(rows);
-      COLS = Object.keys(RAW[0]||{});
-      MAP = detectColumns(COLS);
-      log('[data] colunas detectadas', MAP);
-
-      // Popular filtros
-      const ufs = new Set(RAW.map(r=> (MAP.uf ? (r[MAP.uf]||'').toString().trim().toUpperCase() : '') ).filter(Boolean));
-      $('#filterUF').innerHTML = `<option value="">Todos</option>` + [...ufs].sort().map(uf=>`<option>${uf}</option>`).join('');
-      const sts = new Set(RAW.map(r=> (MAP.status ? (r[MAP.status]||'').toString().trim() : '') ).filter(Boolean));
-      $('#filterStatus').innerHTML = `<option value="">Todos</option>` + [...sts].sort().map(s=>`<option>${s}</option>`).join('');
-
-      // Período default: abrangente
-      const dates = RAW.map(r=> MAP.data ? toDate(r[MAP.data]) : null).filter(Boolean).sort((a,b)=> a-b);
-      if(dates.length){
-        const min = dates[0], max = dates[dates.length-1];
-        $('#dateStart').value = min.toISOString().slice(0,10);
-        $('#dateEnd').value   = max.toISOString().slice(0,10);
-      }
-
-      applyFilters();
-    }
-
-    function applyFilters(){
-      const s = $('#dateStart').value ? new Date($('#dateStart').value+'T00:00:00') : null;
-      const e = $('#dateEnd').value   ? new Date($('#dateEnd').value  +'T23:59:59') : null;
-      const UF = $('#filterUF').value;
-      const ST = $('#filterStatus').value;
-
-      VIEW = RAW.filter(r=>{
-        // data
-        if(MAP.data){
-          const dt = toDate(r[MAP.data]);
-          if(s && (!dt || dt < s)) return false;
-          if(e && (!dt || dt > e)) return false;
-        }
-        // UF
-        if(UF && MAP.uf){
-          const uf = (r[MAP.uf]||'').toString().toUpperCase();
-          if(uf !== UF) return false;
-        }
-        // Status
-        if(ST && MAP.status){
-          const st = (r[MAP.status]||'').toString();
-          if(st !== ST) return false;
-        }
-        return true;
-      });
-
-      renderKPIs();
-      renderCharts();
-      renderGrid();
-      renderTags();
-    }
-
-    function clearFilters(){
-      $('#dateStart').value = '';
-      $('#dateEnd').value = '';
-      $('#filterUF').value = '';
-      $('#filterStatus').value = '';
-      applyFilters();
-    }
-
-    /* ===== Render: KPIs ===== */
-    function renderKPIs(){
-      $('#kpiTotal').innerText = VIEW.length.toLocaleString('pt-BR');
-
-      // período label
-      const s = $('#dateStart').value, e = $('#dateEnd').value;
-      $('#kpiPeriodo').innerText = s||e ? `De ${s||'—'} até ${e||'—'}` : 'Sem filtro de período';
-
-      // whatsapp id
-      let withW = 0;
-      if(MAP.whatsappId){
-        withW = VIEW.reduce((acc,r)=> acc + (String(r[MAP.whatsappId]||'').trim()?1:0), 0);
-      }
-      $('#kpiWhats').innerText = withW.toLocaleString('pt-BR');
-      $('#kpiWhatsPct').innerText = fmtPct(VIEW.length? (withW/VIEW.length): NaN);
-
-      // criado por wpp
-      let criados = 0;
-      if(MAP.criadoWpp){
-        criados = VIEW.reduce((acc,r)=> acc + (/^sim$/i.test(String(r[MAP.criadoWpp]||''))?1:0), 0);
-      }
-      $('#kpiCriadoWpp').innerText = criados.toLocaleString('pt-BR');
-
-      // UFs diferentes
-      let distinctUF = 0;
-      if(MAP.uf){
-        const set = new Set(VIEW.map(r=> (r[MAP.uf]||'').toString().toUpperCase()).filter(Boolean));
-        distinctUF = set.size;
-      }
-      $('#kpiUFs').innerText = distinctUF.toLocaleString('pt-BR');
-    }
-
-    /* ===== Render: Charts ===== */
-    function newChart(ctx, cfg){
-      return new Chart(ctx, {
-        type: cfg.type,
-        data: { labels: cfg.labels, datasets: [{ label: cfg.label||'', data: cfg.data }]},
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: { labels: { color: '#cbd5e1' }},
-            tooltip: { enabled: true }
-          },
-          scales: cfg.scales ?? {
-            x: { ticks:{ color:'#cbd5e1' }, grid:{ color:'rgba(255,255,255,.05)'} },
-            y: { ticks:{ color:'#cbd5e1' }, grid:{ color:'rgba(255,255,255,.05)'} },
-          }
-        }
-      });
-    }
-
-    function renderCharts(){
-      destroyCharts();
-
-      // Timeline por dia
-      if(MAP.data){
-        const byDay = new Map();
-        for(const r of VIEW){
-          const d = toDate(r[MAP.data]);
-          if(!d) continue;
-          const k = d.toISOString().slice(0,10);
-          byDay.set(k, (byDay.get(k)||0)+1);
-        }
-        const labels = Array.from(byDay.keys()).sort();
-        const data   = labels.map(k=> byDay.get(k));
-        chartTL = newChart($('#chartTimeline'), { type:'line', labels, data, label:'Registros/dia' });
-      }
-
-      // Status
-      if(MAP.status){
-        const st = countBy(VIEW, r=> r[MAP.status]);
-        chartStatus = new Chart($('#chartStatus'), {
-          type:'doughnut',
-          data: { labels: st.map(x=>x[0]), datasets: [{ data: st.map(x=>x[1]) }]},
-          options: { plugins:{ legend:{ labels:{ color:'#cbd5e1' }}} }
-        });
-      }
-
-      // UF
-      if(MAP.uf){
-        const uf = countBy(VIEW, r=> (r[MAP.uf]||'').toString().toUpperCase());
-        const top = uf.slice(0,15);
-        chartUF = newChart($('#chartUF'), { type:'bar', labels: top.map(x=>x[0]), data: top.map(x=>x[1]), label:'Registros' });
-      }
-
-      // Cidades
-      if(MAP.cidade){
-        const ci = countBy(VIEW, r=> r[MAP.cidade]);
-        const top = ci.slice(0,10);
-        chartCidade = newChart($('#chartCidades'), {
-          type:'bar',
-          labels: top.map(x=>x[0]),
-          data: top.map(x=>x[1]),
-          label:'Registros',
-          scales:{
-            x: { ticks:{ color:'#cbd5e1' }, grid:{ display:false } },
-            y: { ticks:{ color:'#cbd5e1' }, grid:{ color:'rgba(255,255,255,.05)'} }
-          }
-        });
-      }
-
-      // Fonte
-      if(MAP.fonte){
-        const fo = countBy(VIEW, r=> r[MAP.fonte]);
-        const top = fo.slice(0,10);
-        chartFonte = newChart($('#chartFonte'), { type:'bar', labels: top.map(x=>x[0]), data: top.map(x=>x[1]), label:'Registros' });
-      }
-
-      // Gênero
-      if(MAP.genero){
-        const ge = countBy(VIEW, r=> r[MAP.genero]);
-        chartGenero = new Chart($('#chartGenero'), {
-          type:'pie',
-          data: { labels: ge.map(x=>x[0]), datasets:[{ data: ge.map(x=>x[1]) }]},
-          options: { plugins:{ legend:{ labels:{ color:'#cbd5e1' }}} }
-        });
-      }
-    }
-
-    /* ===== Render: Tags ===== */
-    function renderTags(){
-      const el = $('#tagsWrap');
-      el.innerHTML = '';
-      if(!MAP.tags){ el.innerHTML = '<div class="text-slate-500 text-sm">Coluna <code>tags</code> não encontrada.</div>'; return; }
-      const bag = new Map();
-      for(const r of VIEW){
-        const raw = String(r[MAP.tags]||'').trim();
-        if(!raw) continue;
-        const parts = raw.split(/[,|]/g).map(s=>s.trim()).filter(Boolean);
-        for(const p of parts) bag.set(p, (bag.get(p)||0)+1);
-      }
-      const arr = Array.from(bag.entries()).sort((a,b)=> b[1]-a[1]).slice(0,30);
-      if(!arr.length){ el.innerHTML = '<div class="text-slate-500 text-sm">Sem tags no recorte atual.</div>'; return; }
-      for(const [name,qty] of arr){
-        const chip = document.createElement('span');
-        chip.className = 'chip px-2.5 py-1 rounded-full text-sm';
-        chip.textContent = `${name} (${qty})`;
-        el.appendChild(chip);
-      }
-    }
-
-    /* ===== Render: Grid ===== */
-    function renderGrid(){
-      const head = $('#gridHead');
-      const body = $('#gridBody');
-      const q = $('#search').value?.toLowerCase() || '';
-
-      // colunas de maior interesse primeiro (se existirem)
-      const pref = [MAP.id, MAP.nome, MAP.status, MAP.fonte, MAP.data, MAP.cidade, MAP.uf, MAP.whatsappId, MAP.criadoWpp, MAP.genero, MAP.tags]
-                    .filter(Boolean);
-      const others = COLS.filter(c=> !pref.includes(c));
-      const columns = [...new Set([...pref, ...others])];
-
-      head.innerHTML = columns.map(c=> `<th class="py-3 px-3 font-semibold">${c}</th>`).join('');
-
-      let rows = VIEW;
-      if(q){
-        rows = rows.filter(r=>{
-          return columns.some(c=> String(r[c]??'').toLowerCase().includes(q));
-        });
-      }
-
-      const total = rows.length;
-      const pages = Math.max(1, Math.ceil(total / PAG.size));
-      if(PAG.page > pages) PAG.page = pages;
-
-      const start = (PAG.page-1)*PAG.size;
-      const pageRows = rows.slice(start, start+PAG.size);
-
-      body.innerHTML = pageRows.map(r=>{
-        return `<tr class="hover:bg-white/5">
-          ${columns.map(c=> `<td class="py-2.5 px-3"><span class="ellipsis" title="${String(r[c]??'').replace(/"/g,'&quot;')}">${r[c]??''}</span></td>`).join('')}
-        </tr>`;
-      }).join('');
-
-      $('#gridInfo').innerText = `${(start+1).toLocaleString('pt-BR')}–${Math.min(start+PAG.size,total).toLocaleString('pt-BR')} de ${total.toLocaleString('pt-BR')}`;
-      $('#pageLbl').innerText = `pág. ${PAG.page}/${pages}`;
-    }
-
-    /* ===== Eventos ===== */
-    $('#applyFilters').addEventListener('click', applyFilters);
-    $('#clearFilters').addEventListener('click', clearFilters);
-    $('#search').addEventListener('input', ()=>{ PAG.page=1; renderGrid(); });
-    $('#pageSize').addEventListener('change', (e)=>{ PAG.size = Number(e.target.value)||25; PAG.page=1; renderGrid(); });
-    $('#prevPage').addEventListener('click', ()=>{ if(PAG.page>1){ PAG.page--; renderGrid(); }});
-    $('#nextPage').addEventListener('click', ()=>{ PAG.page++; renderGrid(); });
-
-    $('#btnDemo').addEventListener('click', loadDemo);
-
-    // Upload
-    $('#fileInput').addEventListener('change', async (e)=>{
-      const file = e.target.files?.[0];
-      if(!file) return;
-      const rows = await parseCSVFile(file);
-      applyData(rows);
-      $('#meta').classList.remove('hidden');
-      $('#meta').innerText = `Arquivo: ${file.name} — ${rows.length} linhas, ${Object.keys(rows[0]||{}).length} colunas.`;
-      log('[upload] arquivo carregado', file.name, rows.length);
-    });
-
-    // DnD
-    const drop = $('#drop');
-    ;['dragenter','dragover'].forEach(ev=> drop.addEventListener(ev, e=>{ e.preventDefault(); drop.classList.add('ring-accent'); }));
-    ;['dragleave','drop'].forEach(ev=> drop.addEventListener(ev, e=>{ e.preventDefault(); drop.classList.remove('ring-accent'); }));
-    drop.addEventListener('drop', async (e)=>{
-      const file = e.dataTransfer.files?.[0];
-      if(file){
-        const rows = await parseCSVFile(file);
-        applyData(rows);
-        $('#meta').classList.remove('hidden');
-        $('#meta').innerText = `Arquivo: ${file.name} — ${rows.length} linhas, ${Object.keys(rows[0]||{}).length} colunas.`;
-        log('[dnd] arquivo carregado', file.name, rows.length);
-      }
-      // cola de texto (CSV)
-      const text = e.dataTransfer.getData('text/plain');
-      if(text && !file){
-        const blob = new Blob([text], {type:"text/csv"});
-        const rows = await parseCSVFile(new File([blob],"clipboard.csv",{type:"text/csv"}));
-        applyData(rows);
-        $('#meta').classList.remove('hidden');
-        $('#meta').innerText = `Conteúdo colado — ${rows.length} linhas, ${Object.keys(rows[0]||{}).length} colunas.`;
-        log('[paste] conteúdo CSV colado', rows.length);
-      }
-    });
-
-    // Download CSV atual
-    $('#downloadCSV').addEventListener('click', ()=>{
-      const rows = VIEW; // sem aplicar busca/paginação; se quiser, aplique o filtro de busca aqui
-      downloadCSV('relatorio-filtrado.csv', rows);
-    });
-
-    // Autoload (se hostear junto do CSV, você pode trocar por fetch('./exportacaoteste%20(5).csv'))
-    // Por padrão, começamos vazio para obrigar o upload — clique em "Carregar exemplo" para pré-visualização.
-    log('[boot] aguardando CSV…');
+    new Chart(document.getElementById("chartUF"),{type:"bar",data:ufData,options:{plugins:{legend:{display:false}},scales:{x:{ticks:{color:"#cbd5e1"}},y:{ticks:{color:"#cbd5e1"}}}}});
+    new Chart(document.getElementById("chartTimeline"),{type:"line",data:tlData,options:{plugins:{legend:{labels:{color:"#cbd5e1"}}},scales:{x:{ticks:{color:"#cbd5e1"}},y:{ticks:{color:"#cbd5e1"}}}}});
+    new Chart(document.getElementById("chartStatus"),{type:"doughnut",data:statusData,options:{plugins:{legend:{labels:{color:"#cbd5e1"}}}}});
+    new Chart(document.getElementById("chartFonte"),{type:"doughnut",data:fonteData,options:{plugins:{legend:{labels:{color:"#cbd5e1"}}}}});
   </script>
 </body>
 </html>
