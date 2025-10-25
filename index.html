@@ -1,139 +1,139 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Relatório — Exportação CRM</title>
+    <title>Relatório de Dados</title>
     <link href="https://cdn.tailwindcss.com" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        :root {
-            --bg: #020617;
-            --card: #0b1324;
-            --accent: #eb00e9;
-        }
         body {
             font-family: 'Inter', sans-serif;
-            background-color: var(--bg);
-            color: white;
+            background-color: #020617;
+            color: #ffffff;
         }
-        .glass {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 1rem;
-            padding: 1rem;
-            margin: 1rem;
+        .card {
+            background-color: #0b1324;
+            border-radius: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        .accent {
+            color: #eb00e9;
         }
     </style>
 </head>
-<body class="p-4">
-    <header class="text-center mb-8">
-        <h1 class="text-4xl font-black">Relatório — Exportação CRM</h1>
-        <p class="text-xl mt-2">Total de registros: 36 | Data de referência: 2025-09-24</p>
-    </header>
+<body>
 
-    <section class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div class="glass">
-            <h2 class="text-2xl font-bold">KPIs Principais</h2>
-            <ul class="mt-2">
-                <li>Total de registros: 36</li>
-                <li>Com WhatsApp: 32</li>
-                <li>Criados via WhatsApp: 36</li>
-                <li>Estados distintos: 1</li>
+    <div class="container mx-auto px-4 py-8">
+        <!-- Panorama Geral -->
+        <div class="card">
+            <h1 class="text-5xl font-black accent mb-4">Panorama Geral</h1>
+            <p class="text-xl">Total de Registros: <span class="accent">100</span></p>
+            <canvas id="statusChart" class="mt-6"></canvas>
+        </div>
+
+        <!-- Destaques por Estado -->
+        <div class="card">
+            <h2 class="text-4xl font-bold accent mb-4">Destaques por Estado</h2>
+            <canvas id="estadoChart"></canvas>
+        </div>
+
+        <!-- Análise de Fontes -->
+        <div class="card">
+            <h2 class="text-4xl font-bold accent mb-4">Análise de Fontes</h2>
+            <canvas id="fonteChart"></canvas>
+        </div>
+
+        <!-- Tendências de Criação -->
+        <div class="card">
+            <h2 class="text-4xl font-bold accent mb-4">Tendências de Criação</h2>
+            <canvas id="criacaoChart"></canvas>
+        </div>
+
+        <!-- Próximos Passos -->
+        <div class="card">
+            <h2 class="text-4xl font-bold accent mb-4">Próximos Passos</h2>
+            <ul class="list-disc pl-5">
+                <li>Explorar oportunidades em estados com menos registros.</li>
+                <li>Investigar fontes com maior número de registros para otimização.</li>
+                <li>Monitorar tendências de criação para prever picos de atividade.</li>
             </ul>
         </div>
-
-        <div class="glass">
-            <h2 class="text-2xl font-bold">Tags Mais Frequentes</h2>
-            <div class="flex flex-wrap mt-2">
-                <span class="bg-accent text-black rounded-full px-3 py-1 m-1">ESCALADA | Oiapoque circle (36)</span>
-                <span class="bg-accent text-black rounded-full px-3 py-1 m-1">Escalada l Estudantes (36)</span>
-                <span class="bg-accent text-black rounded-full px-3 py-1 m-1">Escalada l Edgar Oiapoque (33)</span>
-                <!-- Add more tags as needed -->
-            </div>
-        </div>
-    </section>
-
-    <section class="glass">
-        <h2 class="text-2xl font-bold">Evolução Temporal</h2>
-        <canvas id="timelineChart" class="mt-4"></canvas>
-    </section>
-
-    <section class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div class="glass">
-            <h2 class="text-2xl font-bold">Distribuição por Estado</h2>
-            <canvas id="stateChart" class="mt-4"></canvas>
-        </div>
-
-        <div class="glass">
-            <h2 class="text-2xl font-bold">Distribuição por Status</h2>
-            <canvas id="statusChart" class="mt-4"></canvas>
-        </div>
-
-        <div class="glass">
-            <h2 class="text-2xl font-bold">Distribuição por Fonte</h2>
-            <canvas id="sourceChart" class="mt-4"></canvas>
-        </div>
-    </section>
+    </div>
 
     <script>
-        const creationsPerDay = ${report_data['creations_per_day']};
-        const stateDistribution = ${report_data['state_distribution']};
-        const statusDistribution = ${report_data['status_distribution']};
-        const sourceDistribution = ${report_data['source_distribution']};
+        // Dados simulados para os gráficos
+        const statusData = {
+            labels: ['Para prospectar', 'Em negociação', 'Fechado'],
+            datasets: [{
+                data: [60, 30, 10],
+                backgroundColor: ['#eb00e9', '#00ebc7', '#ebc700'],
+            }]
+        };
 
-        const timelineCtx = document.getElementById('timelineChart').getContext('2d');
-        new Chart(timelineCtx, {
-            type: 'line',
-            data: {
-                labels: Object.keys(creationsPerDay),
-                datasets: [{
-                    label: 'Criações por Dia',
-                    data: Object.values(creationsPerDay),
-                    borderColor: 'rgba(235, 0, 233, 0.8)',
-                    backgroundColor: 'rgba(235, 0, 233, 0.2)',
-                    fill: true
-                }]
-            }
+        const estadoData = {
+            labels: ['AL', 'SP', 'RJ', 'MG'],
+            datasets: [{
+                label: 'Registros por Estado',
+                data: [25, 40, 20, 15],
+                backgroundColor: '#eb00e9',
+            }]
+        };
+
+        const fonteData = {
+            labels: ['Escalada-estudantes', 'Evento X', 'Campanha Y'],
+            datasets: [{
+                data: [70, 20, 10],
+                backgroundColor: ['#eb00e9', '#00ebc7', '#ebc700'],
+            }]
+        };
+
+        const criacaoData = {
+            labels: ['2025-10-18', '2025-10-19', '2025-10-20'],
+            datasets: [{
+                label: 'Registros Criados',
+                data: [10, 20, 70],
+                borderColor: '#eb00e9',
+                fill: false,
+            }]
+        };
+
+        // Configuração dos gráficos
+        new Chart(document.getElementById('statusChart'), {
+            type: 'pie',
+            data: statusData,
         });
 
-        const stateCtx = document.getElementById('stateChart').getContext('2d');
-        new Chart(stateCtx, {
+        new Chart(document.getElementById('estadoChart'), {
             type: 'bar',
-            data: {
-                labels: Object.keys(stateDistribution),
-                datasets: [{
-                    label: 'Distribuição por Estado',
-                    data: Object.values(stateDistribution),
-                    backgroundColor: 'rgba(235, 0, 233, 0.8)'
-                }]
+            data: estadoData,
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
             }
         });
 
-        const statusCtx = document.getElementById('statusChart').getContext('2d');
-        new Chart(statusCtx, {
+        new Chart(document.getElementById('fonteChart'), {
             type: 'doughnut',
-            data: {
-                labels: Object.keys(statusDistribution),
-                datasets: [{
-                    label: 'Distribuição por Status',
-                    data: Object.values(statusDistribution),
-                    backgroundColor: ['rgba(235, 0, 233, 0.8)', 'rgba(0, 123, 255, 0.8)']
-                }]
-            }
+            data: fonteData,
         });
 
-        const sourceCtx = document.getElementById('sourceChart').getContext('2d');
-        new Chart(sourceCtx, {
-            type: 'doughnut',
-            data: {
-                labels: Object.keys(sourceDistribution),
-                datasets: [{
-                    label: 'Distribuição por Fonte',
-                    data: Object.values(sourceDistribution),
-                    backgroundColor: ['rgba(235, 0, 233, 0.8)', 'rgba(0, 123, 255, 0.8)']
-                }]
+        new Chart(document.getElementById('criacaoChart'), {
+            type: 'line',
+            data: criacaoData,
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
             }
         });
     </script>
