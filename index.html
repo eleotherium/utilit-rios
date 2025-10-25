@@ -1,138 +1,165 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Relatório de Dados</title>
+    <title>Relatório de Leads</title>
     <link href="https://cdn.tailwindcss.com" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
+        :root {
+            --bg: #020617;
+            --card: #0b1324;
+            --accent: #eb00e9;
+        }
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #020617;
-            color: #ffffff;
-        }
-        .card {
-            background-color: #0b1324;
-            border-radius: 1.5rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            padding: 2rem;
-            margin-bottom: 2rem;
-        }
-        .accent {
-            color: #eb00e9;
+            background-color: var(--bg);
+            color: white;
         }
     </style>
 </head>
-<body>
+<body class="p-8">
+    <header class="mb-12">
+        <h1 class="text-5xl font-black text-center text-accent">Relatório de Leads</h1>
+    </header>
 
-    <div class="container mx-auto px-4 py-8">
-        <!-- Panorama Geral -->
-        <div class="card">
-            <h1 class="text-5xl font-black accent mb-4">Panorama Geral</h1>
-            <p class="text-xl">Total de Registros: <span class="accent">100</span></p>
-            <canvas id="statusChart" class="mt-6"></canvas>
+    <section class="mb-12">
+        <h2 class="text-xl font-bold mb-4">Panorama Geral</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-card p-6 rounded-3xl shadow-lg">
+                <h3 class="text-lg font-semibold mb-2">Total de Registros</h3>
+                <p class="text-3xl font-bold">100</p> <!-- Placeholder for total count -->
+            </div>
+            <div class="bg-card p-6 rounded-3xl shadow-lg">
+                <h3 class="text-lg font-semibold mb-2">Distribuição por Estado</h3>
+                <canvas id="estadoChart"></canvas>
+            </div>
         </div>
+    </section>
 
-        <!-- Destaques por Estado -->
-        <div class="card">
-            <h2 class="text-4xl font-bold accent mb-4">Destaques por Estado</h2>
-            <canvas id="estadoChart"></canvas>
+    <section class="mb-12">
+        <h2 class="text-xl font-bold mb-4">Destaques</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-card p-6 rounded-3xl shadow-lg">
+                <h3 class="text-lg font-semibold mb-2">Principais Fontes de Leads</h3>
+                <canvas id="fonteChart"></canvas>
+            </div>
+            <div class="bg-card p-6 rounded-3xl shadow-lg">
+                <h3 class="text-lg font-semibold mb-2">Status Mais Comuns</h3>
+                <canvas id="statusChart"></canvas>
+            </div>
         </div>
+    </section>
 
-        <!-- Análise de Fontes -->
-        <div class="card">
-            <h2 class="text-4xl font-bold accent mb-4">Análise de Fontes</h2>
-            <canvas id="fonteChart"></canvas>
+    <section class="mb-12">
+        <h2 class="text-xl font-bold mb-4">Análises Detalhadas</h2>
+        <div class="bg-card p-6 rounded-3xl shadow-lg">
+            <h3 class="text-lg font-semibold mb-2">Análise por Responsável</h3>
+            <canvas id="responsavelChart"></canvas>
         </div>
+    </section>
 
-        <!-- Tendências de Criação -->
-        <div class="card">
-            <h2 class="text-4xl font-bold accent mb-4">Tendências de Criação</h2>
-            <canvas id="criacaoChart"></canvas>
+    <section>
+        <h2 class="text-xl font-bold mb-4">Próximos Passos</h2>
+        <div class="bg-card p-6 rounded-3xl shadow-lg">
+            <p>Baseado nos dados, recomenda-se focar nas fontes de leads mais produtivas e otimizar o processo de prospecção para os estados com menor conversão.</p>
         </div>
-
-        <!-- Próximos Passos -->
-        <div class="card">
-            <h2 class="text-4xl font-bold accent mb-4">Próximos Passos</h2>
-            <ul class="list-disc pl-5">
-                <li>Explorar oportunidades em estados com menos registros.</li>
-                <li>Investigar fontes com maior número de registros para otimização.</li>
-                <li>Monitorar tendências de criação para prever picos de atividade.</li>
-            </ul>
-        </div>
-    </div>
+    </section>
 
     <script>
-        // Dados simulados para os gráficos
-        const statusData = {
-            labels: ['Para prospectar', 'Em negociação', 'Fechado'],
-            datasets: [{
-                data: [60, 30, 10],
-                backgroundColor: ['#eb00e9', '#00ebc7', '#ebc700'],
-            }]
-        };
-
+        // Placeholder data
         const estadoData = {
-            labels: ['AL', 'SP', 'RJ', 'MG'],
+            labels: ['AL', 'SP', 'RJ'], // Example states
             datasets: [{
-                label: 'Registros por Estado',
-                data: [25, 40, 20, 15],
-                backgroundColor: '#eb00e9',
+                label: 'Leads por Estado',
+                data: [30, 50, 20], // Example data
+                backgroundColor: ['#eb00e9', '#00ebeb', '#ebeb00']
             }]
         };
 
         const fonteData = {
-            labels: ['Escalada-estudantes', 'Evento X', 'Campanha Y'],
+            labels: ['Escalada-estudantes', 'Escalada-Estudante-DLJ'],
             datasets: [{
-                data: [70, 20, 10],
-                backgroundColor: ['#eb00e9', '#00ebc7', '#ebc700'],
+                label: 'Fontes de Leads',
+                data: [60, 40],
+                backgroundColor: ['#eb00e9', '#00ebeb']
             }]
         };
 
-        const criacaoData = {
-            labels: ['2025-10-18', '2025-10-19', '2025-10-20'],
+        const statusData = {
+            labels: ['Para prospectar', 'Retomar contato', 'Em prospecção'],
             datasets: [{
-                label: 'Registros Criados',
-                data: [10, 20, 70],
-                borderColor: '#eb00e9',
-                fill: false,
+                label: 'Status dos Leads',
+                data: [40, 30, 30],
+                backgroundColor: ['#eb00e9', '#00ebeb', '#ebeb00']
             }]
         };
 
-        // Configuração dos gráficos
-        new Chart(document.getElementById('statusChart'), {
+        const responsavelData = {
+            labels: ['Lucas Paiva'],
+            datasets: [{
+                label: 'Leads por Responsável',
+                data: [100],
+                backgroundColor: ['#eb00e9']
+            }]
+        };
+
+        // Chart.js initialization
+        const ctxEstado = document.getElementById('estadoChart').getContext('2d');
+        new Chart(ctxEstado, {
             type: 'pie',
-            data: statusData,
-        });
-
-        new Chart(document.getElementById('estadoChart'), {
-            type: 'bar',
             data: estadoData,
             options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
                 }
             }
         });
 
-        new Chart(document.getElementById('fonteChart'), {
-            type: 'doughnut',
+        const ctxFonte = document.getElementById('fonteChart').getContext('2d');
+        new Chart(ctxFonte, {
+            type: 'bar',
             data: fonteData,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                }
+            }
         });
 
-        new Chart(document.getElementById('criacaoChart'), {
-            type: 'line',
-            data: criacaoData,
+        const ctxStatus = document.getElementById('statusChart').getContext('2d');
+        new Chart(ctxStatus, {
+            type: 'bar',
+            data: statusData,
             options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                }
+            }
+        });
+
+        const ctxResponsavel = document.getElementById('responsavelChart').getContext('2d');
+        new Chart(ctxResponsavel, {
+            type: 'doughnut',
+            data: responsavelData,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
                 }
             }
         });
