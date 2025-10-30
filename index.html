@@ -1,168 +1,200 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Relatório de Leads</title>
-    <link href="https://cdn.tailwindcss.com" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <style>
-        :root {
-            --bg: #020617;
-            --card: #0b1324;
-            --accent: #eb00e9;
+  <meta charset="UTF-8">
+  <title>Portal de InformaEdu</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <!-- Inter font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: { inter: ['Inter', 'sans-serif'] },
+          colors: {
+            accent: '#22c55e',
+            'bg-dark': '#020617',
+            surface: '#ffffff',
+          }
         }
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg);
-            color: white;
-        }
-    </style>
+      },
+      safelist: [
+        'text-emerald-500', 'bg-emerald-500', 'hover:bg-emerald-600',
+        'shadow-lg', 'shadow-md', 'table-auto'
+      ]
+    }
+  </script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    html { font-family: 'Inter', sans-serif;}
+    @media print {
+      html, body { background: #fff !important; color: #191919 !important; }
+      .dark, body { background: #fff !important; color: #191919 !important;}
+      .bg-slate-950, .bg-gray-900, .dark\:bg-slate-950, .dark\:bg-gray-900 { background: #fff !important;}
+      .border-slate-800 { border-color: #d1d5db !important; }
+      .shadow-lg, .shadow-md { box-shadow: none !important;}
+      .text-white { color: #191919 !important; }
+      .text-emerald-500 { color: #22c55e !important; }
+      .hidden-print { display: none !important;}
+    }
+    /* Logo hover */
+    #logo:hover {
+      opacity: .8;
+      transform: rotate(-3deg) scale(1.04);
+      transition: all .3s cubic-bezier(.4,2,.3,1);
+    }
+    /* Scroll-reveal animation */
+    .reveal {opacity:0; transform: translateY(32px); transition: all .8s cubic-bezier(.12,.82,.41,.95);}
+    .reveal.visible { opacity:1; transform: none;}
+  </style>
 </head>
-<body class="p-8">
-    <header class="mb-12">
-        <h1 class="text-5xl font-black text-center text-accent">Relatório de Leads</h1>
-    </header>
-
-    <section class="mb-12">
-        <h2 class="text-xl font-bold mb-4">Panorama Geral</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="bg-card p-6 rounded-3xl shadow-lg">
-                <h3 class="text-lg font-semibold mb-2">Total de Registros</h3>
-                <p class="text-3xl font-bold">100</p> <!-- Placeholder for total count -->
-            </div>
-            <div class="bg-card p-6 rounded-3xl shadow-lg">
-                <h3 class="text-lg font-semibold mb-2">Distribuição por Estado</h3>
-                <canvas id="estadoChart"></canvas>
-            </div>
-        </div>
+<body class="bg-slate-950 text-white min-h-screen flex flex-col items-center">
+  <main class="w-full max-w-screen-lg flex-1 flex flex-col items-center">
+    <!-- Intro -->
+    <section id="intro" class="w-full mt-10 mb-14 flex flex-col items-center gap-6">
+      <img id="logo"
+        src="file-EtvdPAWzt4R415EXtmxEQB"
+        alt="Logo do InformaEdu"
+        class="w-16 h-16 rounded-full border-2 border-accent shadow-md bg-gray-900 object-cover transition-all print-invert"
+        style="transition: all .3s;">
+      <h1 class="text-3xl md:text-4xl font-bold text-center tracking-tight">
+        Bem-vindo(a) ao Portal de InformaEdu
+      </h1>
+      <div class="flex items-center gap-2 justify-center">
+        <i data-lucide="book-open" class="text-accent w-6 h-6" aria-hidden="true"></i>
+        <p class="text-lg md:text-xl max-w-2xl text-center">
+          Aqui reunimos dados e insights sobre a educação e seu impacto.<br>
+          Você encontra figuras-chave, resultados imediatos e projeções futuras.
+        </p>
+      </div>
     </section>
-
-    <section class="mb-12">
-        <h2 class="text-xl font-bold mb-4">Destaques</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="bg-card p-6 rounded-3xl shadow-lg">
-                <h3 class="text-lg font-semibold mb-2">Principais Fontes de Leads</h3>
-                <canvas id="fonteChart"></canvas>
-            </div>
-            <div class="bg-card p-6 rounded-3xl shadow-lg">
-                <h3 class="text-lg font-semibold mb-2">Status Mais Comuns</h3>
-                <canvas id="statusChart"></canvas>
-            </div>
+    <!-- Destaques -->
+    <section id="destaques" class="w-full mb-14">
+      <h2 class="text-2xl font-semibold mb-6 flex items-center gap-2">
+        <i data-lucide="star" class="text-accent w-6 h-6" aria-hidden="true"></i>
+        Principais Destaques
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+        <div class="bg-gray-900 border border-slate-800 rounded-2xl shadow-md p-6 flex flex-col hover:shadow-lg transition group">
+          <div class="flex items-center gap-3 mb-2">
+            <i data-lucide="arrow-up" class="text-accent w-6 h-6 group-hover:scale-110 transition" aria-hidden="true"></i>
+            <span class="font-bold text-xl text-emerald-500">+20%</span>
+          </div>
+          <div class="text-lg font-medium text-slate-50">Aumento de engajamento em plataformas de ensino.</div>
         </div>
-    </section>
-
-    <section class="mb-12">
-        <h2 class="text-xl font-bold mb-4">Análises Detalhadas</h2>
-        <div class="bg-card p-6 rounded-3xl shadow-lg">
-            <h3 class="text-lg font-semibold mb-2">Análise por Responsável</h3>
-            <canvas id="responsavelChart"></canvas>
+        <div class="bg-gray-900 border border-slate-800 rounded-2xl shadow-md p-6 flex flex-col hover:shadow-lg transition group">
+          <div class="flex items-center gap-3 mb-2">
+            <i data-lucide="award" class="text-accent w-6 h-6 group-hover:scale-110 transition" aria-hidden="true"></i>
+            <span class="font-bold text-xl text-emerald-500">3</span>
+          </div>
+          <div class="text-lg font-medium text-slate-50">Novas parcerias com instituições de renome.</div>
         </div>
-    </section>
-
-    <section>
-        <h2 class="text-xl font-bold mb-4">Próximos Passos</h2>
-        <div class="bg-card p-6 rounded-3xl shadow-lg">
-            <p>Baseado nos dados, recomenda-se focar nas fontes de leads mais produtivas e otimizar o processo de prospecção para os estados com menor conversão.</p>
+        <div class="bg-gray-900 border border-slate-800 rounded-2xl shadow-md p-6 flex flex-col hover:shadow-lg transition group">
+          <div class="flex items-center gap-3 mb-2">
+            <i data-lucide="rocket" class="text-accent w-6 h-6 group-hover:scale-110 transition" aria-hidden="true"></i>
+            <span class="font-bold text-xl text-emerald-500">5</span>
+          </div>
+          <div class="text-lg font-medium text-slate-50">Lançamento piloto de projetos de capacitação.</div>
         </div>
+      </div>
     </section>
+    <!-- Progresso Atual -->
+    <section id="progresso-atual" class="w-full mb-14">
+      <h2 class="text-2xl font-semibold mb-6 flex items-center gap-2">
+        <i data-lucide="activity" class="text-accent w-6 h-6" aria-hidden="true"></i>
+        Onde Estamos Agora
+      </h2>
+      <div class="overflow-x-auto rounded-2xl bg-gray-900 border border-slate-800">
+        <table class="table-auto w-full text-left">
+          <thead>
+            <tr class="text-accent bg-gray-900/80 border-b border-slate-800">
+              <th class="py-3 px-4 font-semibold">Frente</th>
+              <th class="py-3 px-4 font-semibold">Status</th>
+              <th class="py-3 px-4 font-semibold">Meta</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="transition-colors hover:bg-gray-800/90 focus-within:bg-gray-800/90">
+              <td class="py-3 px-4">Treinamentos</td>
+              <td class="py-3 px-4">Em execução</td>
+              <td class="py-3 px-4">50 formados / 120 previstos</td>
+            </tr>
+            <tr class="transition-colors hover:bg-gray-800/90 focus-within:bg-gray-800/90">
+              <td class="py-3 px-4">Infraestrutura</td>
+              <td class="py-3 px-4">Planejando</td>
+              <td class="py-3 px-4">2 laboratórios / 4 até 2024</td>
+            </tr>
+            <tr class="transition-colors hover:bg-gray-800/90 focus-within:bg-gray-800/90">
+              <td class="py-3 px-4">Recursos Digitais</td>
+              <td class="py-3 px-4">Em evolução</td>
+              <td class="py-3 px-4">Portal web 80% pronto</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <!-- Próximos Passos -->
+    <section id="proximos-passos" class="w-full mb-20">
+      <h2 class="text-2xl font-semibold mb-6 flex items-center gap-2">
+        <i data-lucide="move-right" class="text-accent w-6 h-6" aria-hidden="true"></i>
+        O Que Vem a Seguir
+      </h2>
+      <ol class="relative border-l-2 border-accent space-y-0 pl-7">
+        <li class="reveal flex items-start gap-3 mb-8">
+          <span class="absolute -left-3 flex items-center justify-center w-7 h-7 bg-gray-900 border-2 border-accent rounded-full">
+            <i data-lucide="compass" class="text-accent w-5 h-5" aria-hidden="true"></i>
+          </span>
+          <div>
+            <div class="font-medium text-lg">Formalização de parcerias adicionais.</div>
+          </div>
+        </li>
+        <li class="reveal flex items-start gap-3 mb-8">
+          <span class="absolute -left-3 flex items-center justify-center w-7 h-7 bg-gray-900 border-2 border-accent rounded-full">
+            <i data-lucide="flag" class="text-accent w-5 h-5" aria-hidden="true"></i>
+          </span>
+          <div>
+            <div class="font-medium text-lg">Construção de novos campi de ensino.</div>
+          </div>
+        </li>
+        <li class="reveal flex items-start gap-3">
+          <span class="absolute -left-3 flex items-center justify-center w-7 h-7 bg-gray-900 border-2 border-accent rounded-full">
+            <i data-lucide="target" class="text-accent w-5 h-5" aria-hidden="true"></i>
+          </span>
+          <div>
+            <div class="font-medium text-lg">Capacitação intensiva do corpo docente.</div>
+          </div>
+        </li>
+      </ol>
+    </section>
+  </main>
+  <script>
+    // Scroll reveal for timeline
+    function revealOnScroll() {
+      const reveals = document.querySelectorAll('.reveal');
+      for (let el of reveals) {
+        const windowHeight = window.innerHeight;
+        const elementTop = el.getBoundingClientRect().top;
+        if(elementTop < windowHeight - 60) { el.classList.add('visible'); }
+      }
+    }
+    window.addEventListener('scroll', revealOnScroll);
+    window.addEventListener('load', revealOnScroll);
 
-    <script>
-        // Placeholder data
-        const estadoData = {
-            labels: ['AL', 'SP', 'RJ'], // Example states
-            datasets: [{
-                label: 'Leads por Estado',
-                data: [30, 50, 20], // Example data
-                backgroundColor: ['#eb00e9', '#00ebeb', '#ebeb00']
-            }]
-        };
+    // Lucide icons
+    if(window.lucide) lucide.createIcons();
 
-        const fonteData = {
-            labels: ['Escalada-estudantes', 'Escalada-Estudante-DLJ'],
-            datasets: [{
-                label: 'Fontes de Leads',
-                data: [60, 40],
-                backgroundColor: ['#eb00e9', '#00ebeb']
-            }]
-        };
-
-        const statusData = {
-            labels: ['Para prospectar', 'Retomar contato', 'Em prospecção'],
-            datasets: [{
-                label: 'Status dos Leads',
-                data: [40, 30, 30],
-                backgroundColor: ['#eb00e9', '#00ebeb', '#ebeb00']
-            }]
-        };
-
-        const responsavelData = {
-            labels: ['Lucas Paiva'],
-            datasets: [{
-                label: 'Leads por Responsável',
-                data: [100],
-                backgroundColor: ['#eb00e9']
-            }]
-        };
-
-        // Chart.js initialization
-        const ctxEstado = document.getElementById('estadoChart').getContext('2d');
-        new Chart(ctxEstado, {
-            type: 'pie',
-            data: estadoData,
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                    },
-                }
-            }
-        });
-
-        const ctxFonte = document.getElementById('fonteChart').getContext('2d');
-        new Chart(ctxFonte, {
-            type: 'bar',
-            data: fonteData,
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                    },
-                }
-            }
-        });
-
-        const ctxStatus = document.getElementById('statusChart').getContext('2d');
-        new Chart(ctxStatus, {
-            type: 'bar',
-            data: statusData,
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                    },
-                }
-            }
-        });
-
-        const ctxResponsavel = document.getElementById('responsavelChart').getContext('2d');
-        new Chart(ctxResponsavel, {
-            type: 'doughnut',
-            data: responsavelData,
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                    },
-                }
-            }
-        });
-    </script>
+    // Accessibility: modal esc (para futuros modais/tooltips)
+    document.addEventListener('keydown', function(e) {
+      if(e.key === "Escape") {
+        const modal = document.querySelector('.modal[open]');
+        if(modal) modal.close();
+      }
+    });
+  </script>
 </body>
 </html>
