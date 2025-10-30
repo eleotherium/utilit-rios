@@ -1,183 +1,243 @@
 <!DOCTYPE html>
-<html lang="pt-br" class="dark">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Análise CSV Desconhecido</title>
-  <!-- TailwindCSS CDN -->
-  <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
-  <!-- Inter font -->
-  <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
-  <!-- Lucide Icons CDN -->
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <style>
-    html { font-family: 'Inter', sans-serif; }
-    @media print {
-      html { background: #fff !important; }
-      body { background: #fff !important; color: #222 !important; }
-      .bg-slate-950, .bg-gray-900, .bg-slate-800 { background: #fff !important; color: #222 !important; }
-      .shadow-xl, .shadow-lg, .shadow { box-shadow: none !important; }
-      .border-slate-800 { border-color: #aaa !important; }
-    }
-    .fade-in {
-      opacity: 0;
-      transform: translateY(12px);
-      transition: opacity 0.6s cubic-bezier(.4,0,.2,1), transform 0.6s cubic-bezier(.4,0,.2,1);
-    }
-    .fade-in.visible {
-      opacity: 1;
-      transform: none;
-    }
-  </style>
-</head>
-<body class="bg-slate-950 text-gray-200 min-h-screen">
-  <!-- Hero Section -->
-  <header id="intro" class="fade-in bg-gray-900 shadow-xl border border-slate-800 rounded-3xl max-w-3xl mx-auto mt-16 p-8 flex flex-col gap-4 items-center text-center">
-    <div class="flex items-center gap-2 text-teal-300 text-3xl font-bold">
-      <i data-lucide="file-warning" class="w-8 h-8"></i>
-      Análise CSV Desconhecido
-    </div>
-    <div class="text-lg text-slate-400">
-      Relatório gerado automaticamente.<br>
-      <span class="italic">Status:</span> <span class="text-orange-300 font-semibold">Dados do CSV não disponíveis para análise.</span>
-    </div>
-    <div class="text-sm text-slate-500">
-      Público-alvo: Equipe técnica e gerencial.<br>
-      Última atualização: <span id="data-atual"></span>
-    </div>
-  </header>
-
-  <!-- Indicadores Gerais Section -->
-  <section id="indicadores-gerais" class="fade-in bg-gray-900 mt-10 max-w-3xl mx-auto rounded-2xl border border-slate-800 shadow-lg p-6">
-    <div class="flex items-center gap-2 mb-4 text-teal-400 text-xl font-semibold">
-      <i data-lucide="pie-chart"></i>
-      Indicadores (placeholder)
-    </div>
-    <p class="text-slate-400 mb-4">
-      Nenhum dado do CSV foi acessado. Os indicadores abaixo são exemplos e não representam os dados reais.
-    </p>
-    <div class="overflow-auto">
-      <table class="min-w-full text-sm border border-slate-800 rounded-xl bg-slate-950 print:bg-white print:text-black">
-        <thead>
-          <tr class="bg-slate-800 print:bg-gray-200">
-            <th class="py-2 px-4 font-bold text-slate-300 print:text-black">Nome</th>
-            <th class="py-2 px-4 font-bold text-slate-300 print:text-black">Descrição</th>
-            <th class="py-2 px-4 font-bold text-slate-300 print:text-black">Fórmula</th>
-            <th class="py-2 px-4 font-bold text-slate-300 print:text-black">Colunas</th>
-            <th class="py-2 px-4 font-bold text-slate-300 print:text-black">Janela</th>
-            <th class="py-2 px-4 font-bold text-slate-300 print:text-black">Limitações</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="border-t border-slate-800">
-            <td class="py-2 px-4">Contagem Total</td>
-            <td class="py-2 px-4">Total de linhas do CSV</td>
-            <td class="py-2 px-4">count(*)</td>
-            <td class="py-2 px-4">n/d</td>
-            <td class="py-2 px-4">n/d</td>
-            <td class="py-2 px-4">Conteúdo não disponível</td>
-          </tr>
-          <tr class="border-t border-slate-800">
-            <td class="py-2 px-4">Distrib. por Categoria</td>
-            <td class="py-2 px-4">Qtd. linhas em cada categoria</td>
-            <td class="py-2 px-4">group by categoria</td>
-            <td class="py-2 px-4">n/d</td>
-            <td class="py-2 px-4">n/d</td>
-            <td class="py-2 px-4">Coluna não identificada</td>
-          </tr>
-          <tr class="border-t border-slate-800">
-            <td class="py-2 px-4">Tendência Temporal</td>
-            <td class="py-2 px-4">Variações em sequência de tempo</td>
-            <td class="py-2 px-4">avg/dia ou summation</td>
-            <td class="py-2 px-4">n/d</td>
-            <td class="py-2 px-4">n/d</td>
-            <td class="py-2 px-4">Sem datas, não é possível</td>
-          </tr>
-          <tr class="border-t border-slate-800">
-            <td class="py-2 px-4">Taxa de Participação</td>
-            <td class="py-2 px-4">Percentual de cada categoria no total</td>
-            <td class="py-2 px-4">(linhas_cat / total)</td>
-            <td class="py-2 px-4">n/d</td>
-            <td class="py-2 px-4">n/d</td>
-            <td class="py-2 px-4">Desconhece-se formatação do CSV</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-
-  <!-- Destaques Section -->
-  <section id="destaques" class="fade-in bg-gray-900 mt-10 max-w-3xl mx-auto rounded-2xl border border-slate-800 shadow-lg p-6">
-    <div class="flex items-center gap-2 mb-4 text-teal-400 text-xl font-semibold">
-      <i data-lucide="star"></i>
-      Destaques (placeholder)
-    </div>
-    <p class="text-slate-400">
-      Não foi possível determinar top-N ou valores de destaque, pois os dados não foram acessados.
-    </p>
-  </section>
-
-  <!-- Limitações Section -->
-  <section id="limitacoes" class="fade-in bg-gray-900 mt-10 max-w-3xl mx-auto rounded-2xl border border-slate-800 shadow-lg p-6">
-    <div class="flex items-center gap-2 mb-4 text-teal-400 text-xl font-semibold">
-      <i data-lucide="alert-octagon"></i>
-      Limitações e Próximos Passos
-    </div>
-    <ul class="list-disc ml-8 text-slate-400 space-y-2">
-      <li>Falta de acesso ao conteúdo do CSV impossibilita cálculos e análise.</li>
-      <li>É necessário disponibilizar um CSV válido para extração de indicadores reais.</li>
-      <li>Riscos: Não há como explorar padrões, tendências ou alertar sobre dados problemáticos nesta etapa.</li>
-      <li>Sugestão: Verifique se o arquivo está em UTF-8, contém cabeçalhos claros e campos bem definidos (ex: data, categoria, valor).</li>
-    </ul>
-  </section>
-
-  <!-- Conclusões Section -->
-  <section id="conclusoes" class="fade-in bg-gray-900 mt-10 max-w-3xl mx-auto rounded-2xl border border-slate-800 shadow-lg p-6 mb-24">
-    <div class="flex items-center gap-2 mb-4 text-teal-400 text-xl font-semibold">
-      <i data-lucide="info"></i>
-      Conclusões
-    </div>
-    <p class="text-slate-400">
-      Não foi possível realizar a análise qualitativa ou quantitativa, pois os dados do CSV não estavam disponíveis nesta versão.
-      Assim que o CSV for enviado corretamente, este painel poderá mostrar insights reais e rastreáveis.
-    </p>
-  </section>
-  
-  <!-- Checklist de Aceite Section -->
-  <footer id="checklist" class="fade-in bg-slate-950 max-w-3xl mx-auto border-t border-slate-800 pt-8 pb-12 mt-8 text-sm print:text-base print:bg-white print:text-black">
-    <div class="flex items-center gap-2 mb-4 text-teal-400 font-semibold text-base">
-      <i data-lucide="check-square"></i>
-      Checklist de Qualidade da Página
-    </div>
-    <ol class="list-decimal ml-6 space-y-1 text-slate-400">
-      <li>Nenhum número foi exibido sem fonte do CSV.</li>
-      <li>Títulos e mensagens refletem a indisponibilidade dos dados.</li>
-      <li>Nenhum dado fictício é apresentado como real.</li>
-      <li>Indicadores são placeholders explícitos.</li>
-      <li>Página não exibe erros de layout ou gráficos inconsistentes.</li>
-    </ol>
-  </footer>
-
-  <script>
-    // Atualizar data de atualização
-    document.getElementById('data-atual').textContent = new Date().toLocaleDateString('pt-BR');
-    
-    // IntersectionObserver para fade-in animado
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
+<html lang="pt-br" class="dark scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Análise Preliminar de Dados CSV – Fase 1</title>
+    <meta name="description" content="Brief técnico estruturado para análise preliminar de dados CSV, trazendo matriz de indicadores, fluxo de página e diretrizes de visualização baseados em orientações do projeto." />
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+    <link href="https://fonts.googleapis.com/css?family=Inter:400,600,700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons via CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+      html { font-family: 'Inter', sans-serif; }
+      @media print {
+        html {
+          --tw-bg-opacity: 1 !important;
         }
-      });
-    }, { threshold: 0.2 });
-    document.querySelectorAll('.fade-in').forEach(el => io.observe(el));    
-
-    // Lucide icons
-    window.addEventListener('DOMContentLoaded', ()=> {
-      if(window.lucide && typeof window.lucide.createIcons === 'function') {
-        lucide.createIcons();
+        body, .print\:bg-white {
+          background: #fff !important;
+          color: #000 !important;
+        }
+        .print\:text-black {
+          color: #000 !important;
+        }
+        .print\:shadow-none {
+          box-shadow: none !important;
+        }
+        .print\:border-slate-300 {
+          border-color: #cbd5e1 !important;
+        }
       }
-    });
-  </script>
-</body>
+      .fadein {
+        opacity: 0;
+        transform: translateY(32px);
+        transition: all 0.7s cubic-bezier(.77,0,.18,1.1);
+      }
+      .fadein.visible {
+        opacity: 1;
+        transform: none;
+      }
+    </style>
+  </head>
+  <body class="bg-slate-950 text-slate-200 min-h-screen antialiased">
+    <main class="w-full max-w-3xl mx-auto px-4 py-6 md:py-14">
+      <!-- Seção 1: Introdução ao Projeto -->
+      <section id="intro" class="mb-12 fadein">
+        <div class="rounded-3xl border border-slate-800 shadow-lg p-5 bg-gray-900/90 print:bg-white print:shadow-none print:border-slate-300">
+          <div class="flex items-center gap-3 mb-2">
+            <i data-lucide="folder-open" class="w-6 h-6 text-emerald-400"></i>
+            <h1 class="text-2xl md:text-3xl font-bold tracking-tight text-emerald-400 print:text-black">
+              Análise Preliminar de Dados CSV – Fase 1
+            </h1>
+          </div>
+          <p class="text-lg mt-2 print:text-black">
+            Projeto de diagnóstico de base de dados. Esta análise estrutural foi desenvolvida para orientar a equipe interna de dados na construção de insights quantitativos e qualitativos baseados em um arquivo CSV. Todos os indicadores e orientações partem diretamente da amostragem disponível (sem inferências).
+          </p>
+          <dl class="mt-6 space-y-1 text-sm text-slate-400 print:text-black">
+            <div><dt class="inline font-semibold">Contexto:</dt> <dd class="inline">Levantamento inicial dos principais padrões, contagens e dispersões do arquivo CSV anexado.</dd></div>
+            <div><dt class="inline font-semibold">Público-alvo:</dt> <dd class="inline">Equipe de análise (técnicos e gestores).</dd></div>
+          </dl>
+        </div>
+      </section>
+      <!-- Seção 2: Resumo dos Insights -->
+      <section id="insights" class="mb-12 fadein">
+        <div class="rounded-3xl border border-slate-800 shadow-lg p-5 bg-gray-900/90 print:bg-white print:shadow-none print:border-slate-300">
+          <div class="flex items-center gap-3 mb-3">
+            <i data-lucide="search-check" class="w-5 h-5 text-emerald-400"></i>
+            <h2 class="text-xl md:text-2xl font-semibold text-emerald-400 print:text-black">Resumo dos Insights do CSV</h2>
+          </div>
+          <ul class="list-disc ml-6 space-y-2 text-base text-slate-200 print:text-black">
+            <li>Layout geral das colunas (ex.: datas, categorias, valores numéricos) não determinado devido à indisponibilidade dos dados.</li>
+            <li>Total de linhas e possíveis duplicidades não confirmados, dado não verificado.</li>
+            <li>Séries temporais não identificadas, pois não há dados para agrupar por intervalos (dia/semana/mês).</li>
+            <li>Distribuições e top-N (por categoria, estado, etc.) não calculados.</li>
+            <li>Indícios de possíveis outliers ou valores nulos não avaliados.</li>
+            <li>Qualidade geral dos dados não auditada, pois não houve leitura efetiva.</li>
+          </ul>
+        </div>
+      </section>
+      <!-- Seção 3: Matriz de Indicadores -->
+      <section id="matriz-indicadores" class="mb-12 fadein">
+        <div class="rounded-3xl border border-slate-800 shadow-lg p-5 bg-gray-900/90 print:bg-white print:shadow-none print:border-slate-300">
+          <div class="flex items-center gap-3 mb-3">
+            <i data-lucide="table" class="w-5 h-5 text-emerald-400"></i>
+            <h2 class="text-xl md:text-2xl font-semibold text-emerald-400 print:text-black">Matriz de Indicadores Propostos</h2>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="min-w-full text-left border-separate border-spacing-y-3 print:bg-white">
+              <thead>
+                <tr class="text-slate-400 font-medium print:text-black">
+                  <th class="pr-4">Indicador</th>
+                  <th class="pr-4">Descrição</th>
+                  <th class="pr-4">Fórmula</th>
+                  <th class="pr-4">Colunas</th>
+                  <th class="pr-4">Janela</th>
+                  <th class="pr-4">Limitações</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="bg-gray-800/80 rounded-2xl print:bg-white print:rounded-none">
+                  <td class="pr-4">Total de Registros</td>
+                  <td class="pr-4">Quantidade de linhas no CSV.</td>
+                  <td class="pr-4">count(rows)</td>
+                  <td class="pr-4">Todas</td>
+                  <td class="pr-4">Arquivo completo</td>
+                  <td class="pr-4">Depende de não haver linhas em branco/duplicadas.</td>
+                </tr>
+                <tr class="bg-gray-800/80 rounded-2xl print:bg-white print:rounded-none">
+                  <td class="pr-4">Distribuição por Categoria</td>
+                  <td class="pr-4">Agrupa linhas segundo categoria escolhida, mostrando % sobre o total.</td>
+                  <td class="pr-4">(linhas categoria / total) × 100</td>
+                  <td class="pr-4">Categoria (a confirmar)</td>
+                  <td class="pr-4">Arquivo completo</td>
+                  <td class="pr-4">Exige coluna de categoria clara.</td>
+                </tr>
+                <tr class="bg-gray-800/80 rounded-2xl print:bg-white print:rounded-none">
+                  <td class="pr-4">Evolução Temporal</td>
+                  <td class="pr-4">Mostra tendência agregando valores por datas.</td>
+                  <td class="pr-4">sum/avg(col) agrupado por data</td>
+                  <td class="pr-4">Data, valores</td>
+                  <td class="pr-4">Período disponível</td>
+                  <td class="pr-4">Necessita coluna de data consistente.</td>
+                </tr>
+                <tr class="bg-gray-800/80 rounded-2xl print:bg-white print:rounded-none">
+                  <td class="pr-4">Top N Segmentos</td>
+                  <td class="pr-4">Destaca segmentos mais representativos.</td>
+                  <td class="pr-4">order by soma(valores), pega os N</td>
+                  <td class="pr-4">Segmentos/categorias</td>
+                  <td class="pr-4">Arquivo completo</td>
+                  <td class="pr-4">Pode haver excesso de categorias.</td>
+                </tr>
+                <tr class="bg-gray-800/80 rounded-2xl print:bg-white print:rounded-none">
+                  <td class="pr-4">Taxa de Nulos/Erros</td>
+                  <td class="pr-4">Percentual de registros incompletos.</td>
+                  <td class="pr-4">(linhas nulas / total) × 100</td>
+                  <td class="pr-4">Todas</td>
+                  <td class="pr-4">Arquivo completo</td>
+                  <td class="pr-4">Depende de colunas obrigatórias.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+      <!-- Seção 4: Fluxo da Página -->
+      <section id="fluxo-pagina" class="mb-12 fadein">
+        <div class="rounded-3xl border border-slate-800 shadow-lg p-5 bg-gray-900/90 print:bg-white print:shadow-none print:border-slate-300">
+          <div class="flex items-center gap-3 mb-3">
+            <i data-lucide="layout-list" class="w-5 h-5 text-emerald-400"></i>
+            <h2 class="text-xl md:text-2xl font-semibold text-emerald-400 print:text-black">Fluxo de Página Sugerido</h2>
+          </div>
+          <ol class="list-decimal ml-6 space-y-2 text-slate-200 print:text-black">
+            <li><b>Introdução ao Projeto</b> <span class="text-slate-400">– Objetivo, contexto e total de linhas.</span></li>
+            <li><b>Panorama de Distribuição</b> <span class="text-slate-400">– Grupos por categorias, estados e segmentos.</span></li>
+            <li><b>Evolução Temporal</b> <span class="text-slate-400">– Séries de tendência, se houver data.</span></li>
+            <li><b>Destaques Top N</b> <span class="text-slate-400">– Segmentos/categorias de maior expressão.</span></li>
+            <li><b>Qualidade de Dados</b> <span class="text-slate-400">– Erros, nulos e outliers.</span></li>
+            <li><b>Próximos Passos</b> <span class="text-slate-400">– Limitações e orientações futuras.</span></li>
+          </ol>
+        </div>
+      </section>
+      <!-- Seção 5: Diretrizes de Conteúdo -->
+      <section id="diretrizes" class="mb-12 fadein">
+        <div class="rounded-3xl border border-slate-800 shadow-lg p-5 bg-gray-900/90 print:bg-white print:shadow-none print:border-slate-300">
+          <div class="flex items-center gap-3 mb-3">
+            <i data-lucide="bookmark-check" class="w-5 h-5 text-emerald-400"></i>
+            <h2 class="text-xl md:text-2xl font-semibold text-emerald-400 print:text-black">Diretrizes de Conteúdo</h2>
+          </div>
+          <ul class="list-disc ml-6 space-y-2 text-base text-slate-200 print:text-black">
+            <li><span class="font-semibold">Títulos e subtítulos</span> devem refletir as métricas reais do CSV.</li>
+            <li><span class="font-semibold">Texto objetivo</span> explicando cada indicador com fonte e fórmula.</li>
+            <li><span class="font-semibold">Chamadas à ação</span> práticas: baixar CSV ou acessar complementos.</li>
+          </ul>
+        </div>
+      </section>
+      <!-- Seção 6: Componentes Dinâmicos -->
+      <section id="componentes" class="mb-12 fadein">
+        <div class="rounded-3xl border border-slate-800 shadow-lg p-5 bg-gray-900/90 print:bg-white print:shadow-none print:border-slate-300">
+          <div class="flex items-center gap-3 mb-3">
+            <i data-lucide="gallery-horizontal" class="w-5 h-5 text-emerald-400"></i>
+            <h2 class="text-xl md:text-2xl font-semibold text-emerald-400 print:text-black">Componentes Dinâmicos Sugeridos</h2>
+          </div>
+          <ul class="list-disc ml-6 space-y-2 text-base text-slate-200 print:text-black">
+            <li><span class="font-semibold">Gráfico de Barras/Torta:</span> Distribuição categorias/estados, usando contagem por categoria.</li>
+            <li><span class="font-semibold">Gráfico de Linha (Timeline):</span> Evolução diária/semanal/mensal (se houver coluna de data).</li>
+            <li><span class="font-semibold">Tabelas Resumo:</span> Top N por segmento e potenciais outliers.</li>
+            <li><span class="font-semibold">Cards de Métricas:</span> Total de registros, média de valores-chaves, etc.</li>
+          </ul>
+        </div>
+      </section>
+      <!-- Seção 7: Checklist de Qualidade -->
+      <section id="checklist" class="mb-12 fadein">
+        <div class="rounded-3xl border border-slate-800 shadow-lg p-5 bg-gray-900/90 print:bg-white print:shadow-none print:border-slate-300">
+          <div class="flex items-center gap-3 mb-3">
+            <i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-400"></i>
+            <h2 class="text-xl md:text-2xl font-semibold text-emerald-400 print:text-black">Checklist de Qualidade</h2>
+          </div>
+          <ul class="list-disc ml-6 space-y-2 text-base text-slate-200 print:text-black">
+            <li>Todos os números exibidos vêm diretamente das colunas do CSV.</li>
+            <li>Nomes de eixos/legendas/títulos coerentes com as colunas do CSV.</li>
+            <li>Sem divergência entre texto descritivo e gráficos apresentados.</li>
+            <li>Responsividade e clareza visual garantidas.</li>
+          </ul>
+        </div>
+      </section>
+      <!-- Seção 8: Limitações & Próximos Passos -->
+      <section id="proximos-passos" class="mb-8 fadein">
+        <div class="rounded-2xl border border-slate-800 shadow-lg p-5 bg-gray-900/90 print:bg-white print:shadow-none print:border-slate-300">
+          <div class="flex items-center gap-3 mb-3">
+            <i data-lucide="alert-octagon" class="w-5 h-5 text-yellow-400"></i>
+            <h2 class="text-xl md:text-2xl font-semibold text-yellow-400 print:text-black">Limitações & Próximos Passos</h2>
+          </div>
+          <ul class="list-disc ml-6 space-y-2 text-base text-slate-200 print:text-black">
+            <li>O CSV não foi de fato processado; não há valores concretos nesta versão.</li>
+            <li>Necessidade real de leitura e auditoria do CSV para confirmação dos indicadores.</li>
+            <li>Revisar e ajustar métricas e gráficos conforme a realidade dos dados.</li>
+            <li>Somente após validação total, seguir para desenvolvimento visual e publicação.</li>
+          </ul>
+        </div>
+      </section>
+      <footer class="text-center text-sm text-slate-500 mt-8 print:hidden">
+        Página construída conforme diretrizes técnicas e limitações da presente fase | &copy; 2024
+      </footer>
+    </main>
+    <script>
+      // Lucide icons rendering
+      window.addEventListener('DOMContentLoaded', () => {
+        if (window.lucide) lucide.createIcons();
+      });
+
+      // Fade-in animation with IntersectionObserver
+      window.addEventListener('DOMContentLoaded', () => {
+        const observer = new window.IntersectionObserver(entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) entry.target.classList.add('visible');
+          });
+        }, { threshold: 0.08 });
+        document.querySelectorAll('.fadein').forEach(el => observer.observe(el));
+      });
+    </script>
+  </body>
 </html>
