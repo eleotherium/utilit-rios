@@ -1,200 +1,245 @@
 <!DOCTYPE html>
-<html lang="pt-BR" class="dark">
-<head>
-  <meta charset="UTF-8">
-  <title>Portal de InformaEdu</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="color-scheme" content="dark light">
-  <!-- Inter font -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          fontFamily: { inter: ['Inter', 'sans-serif'] },
-          colors: {
-            accent: '#22c55e',
-            'bg-dark': '#020617',
-            surface: '#ffffff',
-          }
+<html lang="pt-br" class="scroll-smooth" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Evolução Contínua 2023 • Dashboard</title>
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+      html {
+        font-family: 'Inter', sans-serif;
+        background: #0f172a;
+      }
+      @media print {
+        html, body {
+          background: #fff !important;
+          color: #222 !important;
         }
-      },
-      safelist: [
-        'text-emerald-500', 'bg-emerald-500', 'hover:bg-emerald-600',
-        'shadow-lg', 'shadow-md', 'table-auto'
-      ]
-    }
-  </script>
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <style>
-    html { font-family: 'Inter', sans-serif;}
-    @media print {
-      html, body { background: #fff !important; color: #191919 !important; }
-      .dark, body { background: #fff !important; color: #191919 !important;}
-      .bg-slate-950, .bg-gray-900, .dark\:bg-slate-950, .dark\:bg-gray-900 { background: #fff !important;}
-      .border-slate-800 { border-color: #d1d5db !important; }
-      .shadow-lg, .shadow-md { box-shadow: none !important;}
-      .text-white { color: #191919 !important; }
-      .text-emerald-500 { color: #22c55e !important; }
-      .hidden-print { display: none !important;}
-    }
-    /* Logo hover */
-    #logo:hover {
-      opacity: .8;
-      transform: rotate(-3deg) scale(1.04);
-      transition: all .3s cubic-bezier(.4,2,.3,1);
-    }
-    /* Scroll-reveal animation */
-    .reveal {opacity:0; transform: translateY(32px); transition: all .8s cubic-bezier(.12,.82,.41,.95);}
-    .reveal.visible { opacity:1; transform: none;}
-  </style>
-</head>
-<body class="bg-slate-950 text-white min-h-screen flex flex-col items-center">
-  <main class="w-full max-w-screen-lg flex-1 flex flex-col items-center">
-    <!-- Intro -->
-    <section id="intro" class="w-full mt-10 mb-14 flex flex-col items-center gap-6">
-      <img id="logo"
-        src="file-EtvdPAWzt4R415EXtmxEQB"
-        alt="Logo do InformaEdu"
-        class="w-16 h-16 rounded-full border-2 border-accent shadow-md bg-gray-900 object-cover transition-all print-invert"
-        style="transition: all .3s;">
-      <h1 class="text-3xl md:text-4xl font-bold text-center tracking-tight">
-        Bem-vindo(a) ao Portal de InformaEdu
-      </h1>
-      <div class="flex items-center gap-2 justify-center">
-        <i data-lucide="book-open" class="text-accent w-6 h-6" aria-hidden="true"></i>
-        <p class="text-lg md:text-xl max-w-2xl text-center">
-          Aqui reunimos dados e insights sobre a educação e seu impacto.<br>
-          Você encontra figuras-chave, resultados imediatos e projeções futuras.
+        .print-invert, .bg-slate-950, .bg-gray-900, .bg-slate-800, .bg-slate-900 {
+          background: #fff !important;
+          color: #222 !important;
+        }
+        .shadow-xl, .shadow-md, .shadow-lg {
+          box-shadow: none !important;
+        }
+        .border-slate-800 {
+          border-color: #aaa !important;
+        }
+      }
+      /* Scroll-reveal base states */
+      .reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.8s cubic-bezier(.5,1.6,.4,1), transform 0.7s;}
+      .reveal.active { opacity: 1; transform: none;}
+    </style>
+  </head>
+  <body class="bg-slate-950 text-slate-100 min-h-screen antialiased selection:bg-indigo-600 selection:text-white">
+    <!-- HERO -->
+    <section id="hero" class="reveal active px-4 py-12 md:py-20 bg-gradient-to-b from-slate-950 via-gray-900 to-slate-950">
+      <div class="max-w-5xl mx-auto text-center">
+        <h1 class="text-3xl md:text-5xl font-bold mb-3 flex items-center justify-center gap-2">
+          <i data-lucide="trend-up" class="w-9 h-9 text-indigo-400"></i>
+          Retrato Mensal de Crescimento 2023
+        </h1>
+        <p class="max-w-2xl mx-auto text-gray-400 text-lg md:text-xl mt-3 mb-6">Crescimento acelerado, oportunidades evidentes — controle e monitoramento para decisões estratégicas ao longo de 2023.</p>
+        <!-- KPI CARDS -->
+        <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div class="bg-gray-900 border border-slate-800 shadow-lg rounded-2xl px-6 py-5 flex flex-col items-center">
+            <i data-lucide="user-check" class="w-7 h-7 text-indigo-400 mb-2"></i>
+            <span class="text-3xl font-bold">+320%</span>
+            <span class="text-gray-400 text-sm mt-1">Usuários Ativos (Ano)</span>
+          </div>
+          <div class="bg-gray-900 border border-slate-800 shadow-lg rounded-2xl px-6 py-5 flex flex-col items-center">
+            <i data-lucide="activity" class="w-7 h-7 text-cyan-400 mb-2"></i>
+            <span class="text-3xl font-bold">Pico: 27%</span>
+            <span class="text-gray-400 text-sm mt-1">Taxa Conversão (Abril)</span>
+          </div>
+          <div class="bg-gray-900 border border-slate-800 shadow-lg rounded-2xl px-6 py-5 flex flex-col items-center">
+            <i data-lucide="dollar-sign" class="w-7 h-7 text-emerald-400 mb-2"></i>
+            <span class="text-3xl font-bold">R$ 1,45M</span>
+            <span class="text-gray-400 text-sm mt-1">Receita Acumulada</span>
+          </div>
+          <div class="bg-gray-900 border border-slate-800 shadow-lg rounded-2xl px-6 py-5 flex flex-col items-center">
+            <i data-lucide="alert-triangle" class="w-7 h-7 text-yellow-400 mb-2"></i>
+            <span class="text-3xl font-bold">↑ 9.8%</span>
+            <span class="text-gray-400 text-sm mt-1">Churn (Agosto)</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DESTAQUES COMPARATIVOS -->
+    <section class="reveal max-w-5xl mx-auto py-12 px-4">
+      <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
+        <i data-lucide="star" class="w-6 h-6 text-indigo-400"></i>
+        Destaques do Ano: Picos e Alertas
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Conversão -->
+        <div class="bg-gray-900 border border-slate-800 rounded-2xl p-6 shadow-lg">
+          <div class="flex items-center mb-2">
+            <i data-lucide="activity" class="w-5 h-5 text-cyan-400 mr-1"></i>
+            <span class="text-md font-semibold">Conversão:</span>
+            <span class="ml-2 text-base text-cyan-300 font-bold">Abril 27%</span>
+          </div>
+          <p class="text-gray-400 text-sm">
+            Pico impulsionado por campanhas. Queda acentuada em junho mostra dependência de ações focadas.
+          </p>
+        </div>
+        <!-- Churn Agosto -->
+        <div class="bg-gray-900 border border-slate-800 rounded-2xl p-6 shadow-lg">
+          <div class="flex items-center mb-2">
+            <i data-lucide="alert-triangle" class="w-5 h-5 text-yellow-400 mr-1"></i>
+            <span class="text-md font-semibold">Churn:</span>
+            <span class="ml-2 text-base text-yellow-300 font-bold">Agosto 9,8%</span>
+          </div>
+          <p class="text-gray-400 text-sm">
+            Sinal amarelo — possível desgaste ou onboarding deficitário. Necessária reação e análise de experiência.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ANÁLISE DETALHADA DE MÉTRICAS -->
+    <section class="reveal max-w-5xl mx-auto px-4 py-12 space-y-16">
+      <!-- Usuários Ativos -->
+      <div class="bg-gray-900 rounded-2xl border border-slate-800 shadow-md px-6 py-8">
+        <div class="flex items-center gap-2 mb-4">
+          <i data-lucide="user-check" class="w-6 h-6 text-indigo-400"></i>
+          <h3 class="text-xl md:text-2xl font-semibold">Expansão de Base e Engajamento</h3>
+        </div>
+        <p class="text-gray-400 mb-5 text-sm md:text-base">
+          Salto expressivo de usuários ativos durante 2023. Base triplicada no ano, com aceleração contínua de entrada de novos usuários.
         </p>
-      </div>
-    </section>
-    <!-- Destaques -->
-    <section id="destaques" class="w-full mb-14">
-      <h2 class="text-2xl font-semibold mb-6 flex items-center gap-2">
-        <i data-lucide="star" class="text-accent w-6 h-6" aria-hidden="true"></i>
-        Principais Destaques
-      </h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
-        <div class="bg-gray-900 border border-slate-800 rounded-2xl shadow-md p-6 flex flex-col hover:shadow-lg transition group">
-          <div class="flex items-center gap-3 mb-2">
-            <i data-lucide="arrow-up" class="text-accent w-6 h-6 group-hover:scale-110 transition" aria-hidden="true"></i>
-            <span class="font-bold text-xl text-emerald-500">+20%</span>
-          </div>
-          <div class="text-lg font-medium text-slate-50">Aumento de engajamento em plataformas de ensino.</div>
-        </div>
-        <div class="bg-gray-900 border border-slate-800 rounded-2xl shadow-md p-6 flex flex-col hover:shadow-lg transition group">
-          <div class="flex items-center gap-3 mb-2">
-            <i data-lucide="award" class="text-accent w-6 h-6 group-hover:scale-110 transition" aria-hidden="true"></i>
-            <span class="font-bold text-xl text-emerald-500">3</span>
-          </div>
-          <div class="text-lg font-medium text-slate-50">Novas parcerias com instituições de renome.</div>
-        </div>
-        <div class="bg-gray-900 border border-slate-800 rounded-2xl shadow-md p-6 flex flex-col hover:shadow-lg transition group">
-          <div class="flex items-center gap-3 mb-2">
-            <i data-lucide="rocket" class="text-accent w-6 h-6 group-hover:scale-110 transition" aria-hidden="true"></i>
-            <span class="font-bold text-xl text-emerald-500">5</span>
-          </div>
-          <div class="text-lg font-medium text-slate-50">Lançamento piloto de projetos de capacitação.</div>
+        <!-- Gráfico Usuários Ativos (Fake SVG) -->
+        <div class="relative w-full h-44 md:h-56 mt-2 mb-2">
+          <svg viewBox="0 0 400 180" fill="none" class="w-full h-full">
+            <polyline points="8,150 60,120 110,90 160,87 210,75 260,55 310,36 390,24"
+                      stroke="#818cf8" stroke-width="4" fill="none" />
+            <circle cx="60" cy="120" r="5" fill="#818cf8"/>
+            <circle cx="310" cy="36" r="6" fill="#818cf8" />
+            <text x="320" y="40" fill="#818cf8" font-size="11" font-weight="bold">Dez</text>
+          </svg>
+          <div class="absolute top-2 left-2 text-xs text-indigo-300 font-semibold">Usuários ativos</div>
         </div>
       </div>
-    </section>
-    <!-- Progresso Atual -->
-    <section id="progresso-atual" class="w-full mb-14">
-      <h2 class="text-2xl font-semibold mb-6 flex items-center gap-2">
-        <i data-lucide="activity" class="text-accent w-6 h-6" aria-hidden="true"></i>
-        Onde Estamos Agora
-      </h2>
-      <div class="overflow-x-auto rounded-2xl bg-gray-900 border border-slate-800">
-        <table class="table-auto w-full text-left">
-          <thead>
-            <tr class="text-accent bg-gray-900/80 border-b border-slate-800">
-              <th class="py-3 px-4 font-semibold">Frente</th>
-              <th class="py-3 px-4 font-semibold">Status</th>
-              <th class="py-3 px-4 font-semibold">Meta</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="transition-colors hover:bg-gray-800/90 focus-within:bg-gray-800/90">
-              <td class="py-3 px-4">Treinamentos</td>
-              <td class="py-3 px-4">Em execução</td>
-              <td class="py-3 px-4">50 formados / 120 previstos</td>
-            </tr>
-            <tr class="transition-colors hover:bg-gray-800/90 focus-within:bg-gray-800/90">
-              <td class="py-3 px-4">Infraestrutura</td>
-              <td class="py-3 px-4">Planejando</td>
-              <td class="py-3 px-4">2 laboratórios / 4 até 2024</td>
-            </tr>
-            <tr class="transition-colors hover:bg-gray-800/90 focus-within:bg-gray-800/90">
-              <td class="py-3 px-4">Recursos Digitais</td>
-              <td class="py-3 px-4">Em evolução</td>
-              <td class="py-3 px-4">Portal web 80% pronto</td>
-            </tr>
-          </tbody>
-        </table>
+      <!-- Conversão -->
+      <div class="bg-gray-900 rounded-2xl border border-slate-800 shadow-md px-6 py-8">
+        <div class="flex items-center gap-2 mb-4">
+          <i data-lucide="activity" class="w-6 h-6 text-cyan-400"></i>
+          <h3 class="text-xl md:text-2xl font-semibold">Pontos de Virada e Oportunidades</h3>
+        </div>
+        <p class="text-gray-400 mb-5 text-sm md:text-base">
+          Conversão alavancada em abril, resultado de ações táticas. Queda subsequente destaca importância de investir continuamente em aquisição qualificada.
+        </p>
+        <!-- Gráfico Conversão (Fake SVG) -->
+        <div class="relative w-full h-44 md:h-56 mt-2 mb-2">
+          <svg viewBox="0 0 400 180" fill="none" class="w-full h-full">
+            <rect x="30" y="120" width="30" height="40" fill="#06b6d4" />
+            <rect x="70" y="105" width="30" height="55" fill="#06b6d4" />
+            <rect x="110" y="75" width="30" height="85" fill="#22d3ee" />
+            <rect x="150" y="48" width="30" height="112" fill="#38bdf8" />
+            <rect x="190" y="28" width="30" height="132" fill="#818cf8" />
+            <rect x="230" y="90" width="30" height="70" fill="#a7f3d0" />
+            <rect x="270" y="115" width="30" height="45" fill="#dbeafe" />
+            <rect x="310" y="130" width="30" height="30" fill="#dbeafe" />
+            <text x="170" y="45" fill="#818cf8" font-size="11" font-weight="bold">Pico Abril</text>
+          </svg>
+          <div class="absolute top-2 left-2 text-xs text-cyan-300 font-semibold">Conversão mensal</div>
+        </div>
+      </div>
+      <!-- Receita -->
+      <div class="bg-gray-900 rounded-2xl border border-slate-800 shadow-md px-6 py-8">
+        <div class="flex items-center gap-2 mb-4">
+          <i data-lucide="dollar-sign" class="w-6 h-6 text-emerald-400"></i>
+          <h3 class="text-xl md:text-2xl font-semibold">Ganho Contínuo e Sustentabilidade</h3>
+        </div>
+        <p class="text-gray-400 mb-5 text-sm md:text-base">
+          Receita acumulada mostra curva de ascensão sólida, com estabilidade a partir do 3º trimestre. Atenção a tendências de sazonalidade e novos fluxos.
+        </p>
+        <!-- Gráfico Receita (Fake SVG) -->
+        <div class="relative w-full h-44 md:h-56 mt-2 mb-2">
+          <svg viewBox="0 0 400 180" fill="none" class="w-full h-full">
+            <polyline points="8,160 60,125 110,100 160,90 210,70 260,57 310,42 390,35"
+                      stroke="#34d399" stroke-width="4" fill="none" />
+            <circle cx="60" cy="125" r="4" fill="#34d399"/>
+            <circle cx="390" cy="35" r="7" fill="#34d399" />
+            <text x="355" y="40" fill="#22d3ee" font-size="11" font-weight="bold">+52%</text>
+          </svg>
+          <div class="absolute top-2 left-2 text-xs text-emerald-300 font-semibold">Receita mensal</div>
+        </div>
+      </div>
+      <!-- Churn -->
+      <div class="bg-gray-900 rounded-2xl border border-slate-800 shadow-md px-6 py-8">
+        <div class="flex items-center gap-2 mb-4">
+          <i data-lucide="alert-triangle" class="w-6 h-6 text-yellow-400"></i>
+          <h3 class="text-xl md:text-2xl font-semibold">Alertas de Retenção</h3>
+        </div>
+        <p class="text-gray-400 mb-5 text-sm md:text-base">
+          Apesar de níveis controlados no geral, agosto apresenta salto de churn. Indica pontos críticos de atenção na jornada dos clientes.
+        </p>
+        <!-- Gráfico Churn (Fake SVG) -->
+        <div class="relative w-full h-44 md:h-56 mt-2 mb-2">
+          <svg viewBox="0 0 400 180" fill="none" class="w-full h-full">
+            <polyline points="8,90 60,80 110,75 160,65 210,78 260,98 310,115 390,102"
+                      stroke="#fde68a" stroke-width="4" fill="none" />
+            <circle cx="260" cy="98" r="5" fill="#fde68a"/>
+            <circle cx="310" cy="115" r="6" fill="#fde68a"/>
+            <text x="270" y="110" fill="#facc15" font-size="11" font-weight="bold">Ago: ↑ 9.8%</text>
+          </svg>
+          <div class="absolute top-2 left-2 text-xs text-yellow-300 font-semibold">Churn mensal</div>
+        </div>
       </div>
     </section>
-    <!-- Próximos Passos -->
-    <section id="proximos-passos" class="w-full mb-20">
-      <h2 class="text-2xl font-semibold mb-6 flex items-center gap-2">
-        <i data-lucide="move-right" class="text-accent w-6 h-6" aria-hidden="true"></i>
-        O Que Vem a Seguir
-      </h2>
-      <ol class="relative border-l-2 border-accent space-y-0 pl-7">
-        <li class="reveal flex items-start gap-3 mb-8">
-          <span class="absolute -left-3 flex items-center justify-center w-7 h-7 bg-gray-900 border-2 border-accent rounded-full">
-            <i data-lucide="compass" class="text-accent w-5 h-5" aria-hidden="true"></i>
-          </span>
-          <div>
-            <div class="font-medium text-lg">Formalização de parcerias adicionais.</div>
-          </div>
-        </li>
-        <li class="reveal flex items-start gap-3 mb-8">
-          <span class="absolute -left-3 flex items-center justify-center w-7 h-7 bg-gray-900 border-2 border-accent rounded-full">
-            <i data-lucide="flag" class="text-accent w-5 h-5" aria-hidden="true"></i>
-          </span>
-          <div>
-            <div class="font-medium text-lg">Construção de novos campi de ensino.</div>
-          </div>
-        </li>
-        <li class="reveal flex items-start gap-3">
-          <span class="absolute -left-3 flex items-center justify-center w-7 h-7 bg-gray-900 border-2 border-accent rounded-full">
-            <i data-lucide="target" class="text-accent w-5 h-5" aria-hidden="true"></i>
-          </span>
-          <div>
-            <div class="font-medium text-lg">Capacitação intensiva do corpo docente.</div>
-          </div>
-        </li>
-      </ol>
-    </section>
-  </main>
-  <script>
-    // Scroll reveal for timeline
-    function revealOnScroll() {
-      const reveals = document.querySelectorAll('.reveal');
-      for (let el of reveals) {
-        const windowHeight = window.innerHeight;
-        const elementTop = el.getBoundingClientRect().top;
-        if(elementTop < windowHeight - 60) { el.classList.add('visible'); }
-      }
-    }
-    window.addEventListener('scroll', revealOnScroll);
-    window.addEventListener('load', revealOnScroll);
 
-    // Lucide icons
-    if(window.lucide) lucide.createIcons();
+    <!-- CONCLUSÃO -->
+    <section class="reveal max-w-3xl mx-auto px-4 py-12 mb-8">
+      <div class="bg-slate-900 border border-slate-800 rounded-3xl p-8 shadow-xl text-center">
+        <h4 class="text-xl md:text-2xl font-bold flex items-center gap-2 justify-center mb-3">
+          <i data-lucide="move-right" class="w-6 h-6 text-indigo-400"></i>
+          O Que Vem a Seguir?
+        </h4>
+        <p class="text-gray-200 mb-4 md:text-lg">
+          Apesar do progresso notável, gargalos surgem e demandam atenção estratégica para manter o ritmo de crescimento.
+        </p>
+        <ul class="text-gray-400 space-y-2 text-left list-disc list-inside mx-auto max-w-lg text-sm md:text-base">
+          <li>Refinar ações de engajamento pós-onboarding para conter o churn.</li>
+          <li>Monitorar a sazonalidade de receita e antecipar quedas.</li>
+          <li>Reforçar campanhas conversão e testar novos canais de aquisição.</li>
+          <li>Análise contínua das métricas-chave — evolução exige vigilância constante.</li>
+        </ul>
+      </div>
+    </section>
 
-    // Accessibility: modal esc (para futuros modais/tooltips)
-    document.addEventListener('keydown', function(e) {
-      if(e.key === "Escape") {
-        const modal = document.querySelector('.modal[open]');
-        if(modal) modal.close();
-      }
-    });
-  </script>
-</body>
+    <!-- Footer -->
+    <footer class="py-8 text-center text-gray-500 text-xs">
+      &copy; 2024 — Evolução Contínua 2023 Dashboard. Dados fictícios para fins de demonstração.
+    </footer>
+
+    <!-- JS: Scroll Reveal + Lucide Init -->
+    <script>
+      // Scroll reveal animation
+      const revealEls = document.querySelectorAll('.reveal');
+      const io = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+            obs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.08 });
+
+      revealEls.forEach(el => {
+        if (!el.classList.contains('active')) io.observe(el);
+      });
+
+      // Init Lucide Icons after DOMContentLoaded
+      document.addEventListener('DOMContentLoaded', () => {
+        lucide.createIcons();
+      });
+    </script>
+  </body>
 </html>
